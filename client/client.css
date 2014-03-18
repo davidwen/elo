@@ -56,6 +56,8 @@ h1, h2, h3, h4, h5, h6 {
       margin-top: 0; }
 #game #winner, #game #loser {
   margin-bottom: 25px; }
+#game #record-link {
+  margin-bottom: 25px; }
 
 #add-game #name, #add-player #name {
   margin-bottom: 25px;
