@@ -13,6 +13,10 @@ var game = function() {
   return Games.findOne({href: room()});
 };
 
+Template.index.rendered = function() {
+  FastClick.attach(document.body);
+};
+
 Template.index.show = function() {
   return room() == '';
 };
@@ -28,14 +32,15 @@ Template.index.events({
   },
 
   'click #add-link': function () {
-    $('#game-list').hide();
-    $('#add-game').show();
+    $('#game-list').slideUp();
+    $('#add-game').slideDown();
     return false;
   },
 
   'click .back-link': function () {
-    $('#add-game, .error').hide();
-    $('#game-list').show();
+    $('.error').hide();
+    $('#add-game').slideUp();
+    $('#game-list').slideDown();
     return false;
   },
 
@@ -102,32 +107,33 @@ Template.game.events({
   'click #results-tab': function() {
     $('.active').removeClass('active');
     $('#results-tab').addClass('active');
-    $('#rankings').hide();
-    $('#results').show();
+    $('#rankings').slideUp();
+    $('#results').slideDown();
     return false;
   },
 
   'click #rankings-tab': function() {
     $('.active').removeClass('active');
     $('#rankings-tab').addClass('active');
-    $('#results').hide();
-    $('#rankings').show();
+    $('#results').slideUp();
+    $('#rankings').slideDown();
     return false;
   },
 
   'click #add-link': function() {
-    $('#player-list').hide();
-    $('#add-player').show();
+    $('#player-list').slideUp();
+    $('#add-player').slideDown();
   },
 
   'click #record-link': function() {
-    $('#player-list').hide();
-    $('#add-result').show();
+    $('#player-list').slideUp();
+    $('#add-result').slideDown();
   },
 
   'click .back-link': function () {
-    $('#add-player, #add-result, .error').hide();
-    $('#player-list').show();
+    $('.error').hide();
+    $('#add-player, #add-result').slideUp();
+    $('#player-list').slideDown();
     return false;
   },
 
@@ -139,8 +145,9 @@ Template.game.events({
     }
     $error.hide();
     Meteor.call('add_player', name, room(), function(error, result) {
-      $('#add-player, .error').hide();
-      $('#player-list').show();
+      $('.error').hide();
+      $('#add-player').slideUp();
+      $('#player-list').slideDown();
       $('#name').val('');
     });
   },
@@ -155,14 +162,14 @@ Template.game.events({
       $error.text('Winner and loser can\'t be the same').show();
     } else {
       Meteor.call('add_result', winner, loser, room(), function(error, result) {
-        $('#add-result, .error').hide();
-        $('#player-list').show();
+        $('.error').hide();
+        $('#add-result').slideUp();
+        $('#player-list').slideDown();
         $('#winner, #loser').val('');
       });
     }
   }
 });
-
 
 Meteor.startup(function() {
   Deps.autorun(function() {

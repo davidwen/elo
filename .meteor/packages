@@ -8,3 +8,5 @@ preserve-inputs
 
 bootstrap-3
 jquery
+
+fastclick
