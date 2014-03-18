@@ -3,4 +3,4 @@ elo
 
 Elo rankings built with Meteor.js
 
-View at elo.meteor.com
+View at http://elo.meteor.com
