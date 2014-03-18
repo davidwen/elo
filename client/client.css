@@ -60,6 +60,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%; }
 
 .btn {
+  font-weight: 600;
   margin-bottom: 15px;
   width: 100%; }
 
@@ -69,6 +70,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .title {
   border-bottom: 1px solid black;
-  margin-bottom: 25px;
+  margin: 10px 0 25px;
   padding-bottom: 10px;
   text-align: center; }
