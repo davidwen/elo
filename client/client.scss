@@ -1,0 +1,103 @@
+body {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+}
+
+#index,
+#game {
+    font-size: 18px;
+    margin: 0 auto;
+    position: relative;
+    width: 300px;
+}
+
+#index {
+    ul {
+        font-size: 24px;
+        list-style-type: none;
+        margin-bottom: 25px;
+        padding: 0;
+        
+        li {
+            padding: 10px 5px;
+        }
+    }
+}
+
+#game {
+    .nav {
+        margin-bottom: 25px;
+
+        li {
+            text-align: center;
+            width: 50%;
+        }
+    }
+
+    ol {
+        margin-bottom: 25px;
+
+        li {
+            margin: 5px 0;
+        }
+    }
+
+    #results {
+        list-style-type: none;
+        margin-bottom: 25px;
+        padding: 0;
+
+        li {
+            margin: 2px 0;
+
+            strong {
+                font-weight: 600;
+            }
+
+            .winner-change {
+                color: #5cb85c;
+            }
+
+            .loser-change {
+                color: #d9534f;
+            }
+        }
+
+        .date-separator {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    }
+
+    #winner, #loser {
+        margin-bottom: 25px;
+    }
+}
+
+#add-game, #add-player {
+    #name {
+        margin-bottom: 25px;
+        width: 100%;
+    }
+}
+
+.btn {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.error {
+    color: red;
+    margin-bottom: 25px;
+}
+
+.title {
+    border-bottom: 1px solid black;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    text-align: center;
+}

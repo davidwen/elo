@@ -1,0 +1,98 @@
+<head>
+  <title>Elo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="apple-touch-icon-precomposed" href="icon.png">
+  <link rel="apple-touch-startup-image" href="splash.png">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+  {{> index}}
+  {{> game}}
+</body>
+
+<template name="index">
+  {{#if show}}
+    <div id="index">
+      <div id="game-list">
+        <h2 class="title">Game List</h2>
+        <ul>
+          {{#each games}}
+            <li>
+              <a class="game-link" href="/{{href}}">{{name}}</a>
+            </li>
+          {{/each}}
+        </ul>
+        <button id="add-link" class="btn btn-primary btn-lg">Add Game</button>
+      </div>
+      <div id="add-game" style="display: none;">
+        <h2 class="title">New Game</h2>
+        <input type="text" id="name" class="form-control input-lg" placeholder="Game name (e.g. Foosball)">
+        <div class="error" style="display: none;"></div>
+        <button id="add-game-submit" class="btn btn-primary btn-lg">Add Game</button>
+        <button class="back-link btn btn-danger btn-lg">Return to Game List</button>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="game">
+  {{#if show}}
+    <div id="game">
+      <div id="player-list">
+        <h2 class="title">{{title}}</h2>
+        <ul class="nav nav-tabs">
+          <li id="rankings-tab" class="active"><a href="#">Rankings</a></li>
+          <li id="results-tab"><a href="#">Results</a></li>
+        </ul>
+        <ol id="rankings">
+          {{#each players}}
+            <li>{{name}} ({{rating}})</li>
+          {{/each}}
+        </ol>
+        <ul id="results" style="display: none;">
+          {{#each results}}
+            {{{maybeSimpleDate}}}
+            <li>
+              <strong>{{winner}}</strong>
+              (<span class="winner-change">+{{winner_change}}</span>) beat
+              <strong>{{loser}}</strong>
+              (<span class="loser-change">{{loser_change}}</span>)
+            </li>
+          {{/each}}
+        </ul>
+        <button id="record-link" class="btn btn-info btn-lg">Record Result</button>
+        <button id="add-link" class="btn btn-primary btn-lg">Add Player</button>
+        <button id="home-link" class="btn btn-danger btn-lg">Return to Game List</button>
+      </div>
+      <div id="add-player" style="display: none;">
+        <h2 class="title">New Player</h2>
+        <input type="text" id="name" class="form-control input-lg" placeholder="Player name (e.g. Joe)">
+        <div class="error" style="display: none;"></div>
+        <button id="add-player-submit" class="btn btn-primary btn-lg">Add Player</button>
+        <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
+      </div>
+      <div id="add-result" style="display: none;">
+        <h2 class="title">Record Result</h2>
+        <h4>Winner:</h4>
+        <select id="winner" class="form-control">
+          <option value="">(Select Winner)</option>
+          {{#each alphaPlayers}}
+            <option value="{{name}}">{{name}}</option>
+          {{/each}}
+        </select>
+        <h4>Loser:</h4>
+        <select id="loser" class="form-control">
+          <option value="">(Select Loser)</option>
+          {{#each alphaPlayers}}
+            <option value="{{name}}">{{name}}</option>
+          {{/each}}
+        </select>
+        <div class="error" style="display: none;"></div>
+        <button id="add-result-submit" class="btn btn-primary btn-lg">Add Result</button>
+        <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
+      </div>
+    </div>
+  {{/if}}
+</template>
