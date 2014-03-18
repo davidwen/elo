@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
         list-style-type: none;
         margin-bottom: 25px;
         padding: 0;
-        
+
         a {
             li {
                 border: 2px solid black;
@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 
                 &:hover {
                     background-color: #ddd;
-                }   
+                }
             }
 
             &:hover {
@@ -84,6 +84,10 @@ h1, h2, h3, h4, h5, h6 {
             font-size: 20px;
             font-weight: bold;
             margin: 10px 0;
+
+            &:first-child {
+                margin-top: 0;
+            }
         }
     }
 
