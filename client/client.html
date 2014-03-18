@@ -19,9 +19,9 @@
         <h2 class="title">Game List</h2>
         <ul>
           {{#each games}}
-            <li>
-              <a class="game-link" href="/{{href}}">{{name}}</a>
-            </li>
+            <a class="game-link" href="/{{href}}">
+              <li>{{name}}</li>
+            </a>
           {{/each}}
         </ul>
         <button id="add-link" class="btn btn-primary btn-lg">Add Game</button>

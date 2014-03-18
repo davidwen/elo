@@ -27,7 +27,7 @@ Template.index.games = function () {
 
 Template.index.events({
   'click .game-link': function() {
-    window.location.href = $(event.target).attr('href');
+    window.location.href = $(event.target).parents('a').attr('href');
     return false;
   },
 

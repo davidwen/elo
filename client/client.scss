@@ -21,8 +21,22 @@ h1, h2, h3, h4, h5, h6 {
         margin-bottom: 25px;
         padding: 0;
         
-        li {
-            padding: 10px 5px;
+        a {
+            li {
+                border: 2px solid black;
+                border-radius: 6px;
+                color: black;
+                padding: 10px 10px;
+                margin: 10px 0;
+
+                &:hover {
+                    background-color: #ddd;
+                }   
+            }
+
+            &:hover {
+                    text-decoration: none;
+            }
         }
     }
 }
