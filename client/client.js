@@ -33,7 +33,9 @@ Template.index.events({
 
   'click #add-link': function () {
     $('#game-list').slideUp();
-    $('#add-game').slideDown();
+    $('#add-game').slideDown(function() {
+      $('#name').focus();
+    });
     return false;
   },
 
@@ -122,7 +124,9 @@ Template.game.events({
 
   'click #add-link': function() {
     $('#player-list').slideUp();
-    $('#add-player').slideDown();
+    $('#add-player').slideDown(function() {
+      $('#name').focus();
+    });
   },
 
   'click #record-link': function() {
