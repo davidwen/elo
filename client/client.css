@@ -28,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration: none; }
 
 #game .nav {
+  margin-top: 10px;
   margin-bottom: 25px; }
   #game .nav li {
     text-align: center;
@@ -64,8 +65,6 @@ h1, h2, h3, h4, h5, h6 {
     #game #results .date-separator:first-child {
       margin-top: 0; }
 #game #winner, #game #loser {
-  margin-bottom: 25px; }
-#game #record-link {
   margin-bottom: 25px; }
 
 #add-game #name, #add-player #name {

@@ -1,5 +1,6 @@
 var CUR_DATE;
 var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var resultsDeps = new Deps.Dependency();
 
 var room = function() {
   var pathSplit = window.location.pathname.split('/');
@@ -150,11 +151,28 @@ Template.game.events({
       $error.text('Winner and loser can\'t be the same').show();
     } else {
       Meteor.call('add_result', winner, loser, room(), function(error, result) {
-        $('#results').html(Meteor.render(Template.results));
+        resultsDeps.changed();
+        if (result) {
+          $('#undo-record-link').attr('result-id', result).show();
+          setTimeout(function() {
+            $('#undo-record-link').removeAttr('result-id').slideUp();
+          }, 20 * 1000);
+        }
         $error.hide();
         $('#add-result').slideUp();
         $('#player-list').slideDown();
         $('#winner, #loser').val('');
+      });
+    }
+  },
+
+  'click #undo-record-link': function(event) {
+    var $button = $(event.target);
+    var resultId = $button.attr('result-id');
+    if (resultId) {
+      Meteor.call('undo_result', resultId, function(error, result) {
+        resultsDeps.changed();
+        $button.slideUp();
       });
     }
   }
@@ -165,6 +183,7 @@ Template.results.rendered = function() {
 }
 
 Template.results.results = function() {
+  resultsDeps.depend();
   return Results.find({}, {sort: {timestamp: -1}, limit: 10});
 }
 

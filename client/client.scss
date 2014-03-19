@@ -43,6 +43,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #game {
     .nav {
+        margin-top: 10px;
         margin-bottom: 25px;
 
         li {
@@ -105,10 +106,6 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     #winner, #loser {
-        margin-bottom: 25px;
-    }
-
-    #record-link {
         margin-bottom: 25px;
     }
 }

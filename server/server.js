@@ -29,11 +29,11 @@ Meteor.methods({
       var diffs = calculateEloDiffs(w.rating, l.rating);
       var winnerDiff = diffs[0];
       var loserDiff = diffs[1];
-      Players.update({name: winner},
+      Players.update(w._id,
                      {$set: {rating: w.rating + winnerDiff}});
-      Players.update({name: loser},
+      Players.update(l._id,
                      {$set: {rating: l.rating + loserDiff}});
-      Results.insert({
+      var resultId = Results.insert({
         winner: winner,
         loser: loser,
         game: game,
@@ -41,6 +41,22 @@ Meteor.methods({
         loser_change: loserDiff,
         timestamp: new Date().getTime()
       });
+      return resultId;
+    }
+  },
+
+  undo_result: function(resultId) {
+    var r = Results.findOne(resultId);
+    if (r) {
+      var w = Players.findOne({name: r.winner, game: r.game});
+      var l = Players.findOne({name: r.loser, game: r.game});
+      if (w && l) {
+        Players.update(w._id,
+                       {$set: {rating: w.rating - r.winner_change}});
+        Players.update(l._id,
+                       {$set: {rating: l.rating - r.loser_change}});
+        Results.remove(r._id);
+      }
     }
   }
 });
