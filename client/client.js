@@ -75,7 +75,7 @@ Template.game.title = function() {
 };
 
 Template.game.players = function() {
-  return Players.find({}, {sort: {rating: -1}});
+  return Players.find({}, {sort: {rating: -1, name: 1}});
 }
 
 Template.game.alphaPlayers = function() {
