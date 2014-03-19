@@ -15,9 +15,9 @@
 <template name="index">
   {{#if show}}
     <div id="index">
-      <div id="game-list">
+      <div id="game-list-container">
         <h2 class="title">Game List</h2>
-        <ul>
+        <ul id="game-list">
           {{#each games}}
             <a class="game-link" href="/{{href}}">
               <li>{{name}}</li>
@@ -28,7 +28,7 @@
       </div>
       <div id="add-game" style="display: none;">
         <h2 class="title">New Game</h2>
-        <input type="text" id="name" class="form-control input-lg" placeholder="Game name (e.g. Foosball)">
+        <input type="text" id="name-input" class="form-control input-lg" placeholder="Game name (e.g. Foosball)">
         <div class="error" style="display: none;"></div>
         <button id="add-game-submit" class="btn btn-primary btn-lg">Add Game</button>
         <button class="back-link btn btn-danger btn-lg">Return to Game List</button>
@@ -44,7 +44,7 @@
         <h2 class="title">{{title}}</h2>
         <button id="record-link" class="btn btn-info btn-lg">Record Result</button>
         <button id="undo-record-link" class="btn btn-warning btn-lg" style="display: none;">Undo Last Result</button>
-        <ul class="nav nav-tabs">
+        <ul id="game-nav" class="nav nav-tabs">
           <li id="rankings-tab" class="active"><a href="#">Rankings</a></li>
           <li id="results-tab"><a href="#">Results</a></li>
         </ul>
@@ -63,7 +63,7 @@
       </div>
       <div id="add-player" style="display: none;">
         <h2 class="title">New Player</h2>
-        <input type="text" id="name" class="form-control input-lg" placeholder="Player name (e.g. Joe)">
+        <input type="text" id="name-input" class="form-control input-lg" placeholder="Player name (e.g. Joe)">
         <div class="error" style="display: none;"></div>
         <button id="add-player-submit" class="btn btn-primary btn-lg">Add Player</button>
         <button class="back-link btn btn-danger btn-lg">Return to Player List</button>

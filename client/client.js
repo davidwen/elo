@@ -33,9 +33,9 @@ Template.index.events({
   },
 
   'click #add-link': function () {
-    $('#game-list').slideUp();
+    $('#game-list-container').slideUp();
     $('#add-game').slideDown(function() {
-      $('#name').focus();
+      $('#name-input').focus();
     });
     return false;
   },
@@ -43,12 +43,12 @@ Template.index.events({
   'click .back-link': function () {
     $('.error').hide();
     $('#add-game').slideUp();
-    $('#game-list').slideDown();
+    $('#game-list-container').slideDown();
     return false;
   },
 
   'click #add-game-submit': function() {
-    var name = $('#name').val();
+    var name = $('#name-input').val();
     var $error = $('.error');
     if (name.trim().length == 0) {
       $error.text('Enter a game name').show();
@@ -106,7 +106,7 @@ Template.game.events({
   'click #add-link': function() {
     $('#player-list').slideUp();
     $('#add-player').slideDown(function() {
-      $('#name').focus();
+      $('#name-input').focus();
     });
   },
 
@@ -123,7 +123,7 @@ Template.game.events({
   },
 
   'click #add-player-submit': function() {
-    var name = $('#name').val();
+    var name = $('#name-input').val();
     var $error = $('#add-player .error');
     if (!name) {
       $error.text('Please enter a player name').show();
@@ -136,7 +136,7 @@ Template.game.events({
         $error.hide();
         $('#add-player').slideUp();
         $('#player-list').slideDown();
-        $('#name').val('');
+        $('#name-input').val('');
       }
     });
   },

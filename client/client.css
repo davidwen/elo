@@ -1,73 +1,74 @@
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, strong {
   font-weight: 600; }
 
 #index,
 #game {
   font-size: 18px;
   margin: 0 auto;
-  position: relative;
   width: 300px; }
 
-#index ul {
+#game-list {
   font-size: 24px;
   list-style-type: none;
   margin-bottom: 25px;
   padding: 0; }
-  #index ul a li {
+  #game-list a:hover {
+    text-decoration: none; }
+  #game-list li {
     border: 2px solid black;
     border-radius: 6px;
-    color: black;
+    color: #000;
     padding: 10px 10px;
     margin: 10px 0; }
-    #index ul a li:hover {
+    #game-list li:hover {
       background-color: #ddd; }
-  #index ul a:hover {
-    text-decoration: none; }
 
-#game .nav {
+#game-nav {
   margin-top: 10px;
   margin-bottom: 25px; }
-  #game .nav li {
+  #game-nav li {
     text-align: center;
     width: 50%; }
-#game ol {
+
+#rankings {
   margin-bottom: 25px; }
-  #game ol li {
+  #rankings li {
     margin: 5px 0; }
-    #game ol li.empty {
-      color: #aaa;
-      font-style: italic;
-      list-style: none;
+    #rankings li.empty {
       margin-left: -40px; }
-#game #results {
+
+.empty {
+  color: #aaa;
+  font-style: italic;
+  list-style: none; }
+
+#results {
   list-style-type: none;
   margin-bottom: 25px;
   padding: 0; }
-  #game #results li {
+  #results li {
     margin: 2px 0; }
-    #game #results li strong {
-      font-weight: 600; }
-    #game #results li .winner-change {
-      color: #5cb85c; }
-    #game #results li .loser-change {
-      color: #d9534f; }
-    #game #results li.empty {
-      color: #aaa;
-      font-style: italic;
-      list-style: none; }
-  #game #results .date-separator {
+  #results .date-separator {
+    color: #666;
     font-size: 20px;
     font-weight: bold;
-    margin: 10px 0; }
-    #game #results .date-separator:first-child {
+    margin: 15px 0; }
+    #results .date-separator:first-child {
       margin-top: 0; }
-#game #winner, #game #loser {
+
+.winner-change {
+  color: #5cb85c; }
+
+.loser-change {
+  color: #d9534f; }
+
+#winner, #loser {
   margin-bottom: 25px; }
 
-#add-game #name, #add-player #name {
+#name-input {
   margin-bottom: 25px;
   width: 100%; }
 
