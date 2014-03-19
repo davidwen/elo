@@ -151,7 +151,6 @@ Template.game.events({
       $error.text('Winner and loser can\'t be the same').show();
     } else {
       Meteor.call('add_result', winner, loser, room(), function(error, result) {
-        resultsDeps.changed();
         if (result) {
           $('#undo-record-link').attr('result-id', result).show();
           setTimeout(function() {
@@ -171,7 +170,6 @@ Template.game.events({
     var resultId = $button.attr('result-id');
     if (resultId) {
       Meteor.call('undo_result', resultId, function(error, result) {
-        resultsDeps.changed();
         $button.slideUp();
       });
     }
@@ -206,5 +204,13 @@ Meteor.startup(function() {
       Meteor.subscribe('results', room());
     }
     Meteor.subscribe('games', room());
+    Results.find({}).observe({
+      added: function() {
+        resultsDeps.changed();
+      },
+      removed: function() {
+        resultsDeps.changed();
+      }
+    });
   });
 });
