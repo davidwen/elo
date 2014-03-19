@@ -5,7 +5,11 @@ Meteor.methods({
       Games.insert({name: name, href: href});
       return href;
     }
-    return null;
+    if (href.length == 0) {
+      throw new Meteor.Error(400, 'Enter a game name');
+    } else {
+      throw new Meteor.Error(400, 'Game "' + name + '" already exists');
+    }
   },
 
   add_player: function (name, game) {
@@ -13,7 +17,9 @@ Meteor.methods({
     var p = Players.findOne({name: name, game: game});
     if (g && !p) {
       Players.insert({name: name, game: game, rating: 1000});
+      return;
     }
+    throw new Meteor.Error(400, 'Player "' + name + '" already exists');
   },
 
   add_result: function(winner, loser, game) {

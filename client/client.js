@@ -50,13 +50,13 @@ Template.index.events({
     var name = $('#name').val();
     var $error = $('.error');
     if (name.trim().length == 0) {
-      $error.text('Please enter a game name').show();
+      $error.text('Enter a game name').show();
       return;
     }
     $error.hide();
     Meteor.call('add_game', name, function(error, result) {
-      if (!result) {
-        $error.text('Please enter another game name, ' + name + ' is taken').show(); 
+      if (error) {
+        $error.text(error.reason).show();
       } else {
         window.location.href = '/' + result;
       }
@@ -129,10 +129,14 @@ Template.game.events({
     }
     $error.hide();
     Meteor.call('add_player', name, room(), function(error, result) {
-      $('.error').hide();
-      $('#add-player').slideUp();
-      $('#player-list').slideDown();
-      $('#name').val('');
+      if (error) {
+        $error.text(error.reason).show();
+      } else {
+        $error.hide();
+        $('#add-player').slideUp();
+        $('#player-list').slideDown();
+        $('#name').val('');
+      }
     });
   },
 
@@ -147,7 +151,7 @@ Template.game.events({
     } else {
       Meteor.call('add_result', winner, loser, room(), function(error, result) {
         $('#results').html(Meteor.render(Template.results));
-        $('.error').hide();
+        $error.hide();
         $('#add-result').slideUp();
         $('#player-list').slideDown();
         $('#winner, #loser').val('');
