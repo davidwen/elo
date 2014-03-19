@@ -53,15 +53,7 @@
           {{/each}}
         </ol>
         <ul id="results" style="display: none;">
-          {{#each results}}
-            {{{maybeSimpleDate}}}
-            <li>
-              <strong>{{winner}}</strong>
-              (<span class="winner-change">+{{winner_change}}</span>) beat
-              <strong>{{loser}}</strong>
-              (<span class="loser-change">{{loser_change}}</span>)
-            </li>
-          {{/each}}
+          {{> results}}
         </ul>
         <button id="add-link" class="btn btn-primary btn-lg">Add Player</button>
         <button id="home-link" class="btn btn-danger btn-lg">Return to Game List</button>
@@ -95,4 +87,16 @@
       </div>
     </div>
   {{/if}}
+</template>
+
+<template name="results">
+  {{#each results}}
+    {{{maybeSimpleDate}}}
+    <li>
+      <strong>{{winner}}</strong>
+      (<span class="winner-change">+{{winner_change}}</span>) beat
+      <strong>{{loser}}</strong>
+      (<span class="loser-change">{{loser_change}}</span>)
+    </li>
+  {{/each}}
 </template>

@@ -81,26 +81,6 @@ Template.game.alphaPlayers = function() {
   return Players.find({}, {sort: {name: 1}});
 }
 
-Template.game.results = function() {
-  return Results.find({}, {sort: {timestamp: -1}, limit: 10});
-}
-
-Template.game.rendered = function() {
-  CUR_DATE = null;
-}
-
-Template.game.maybeSimpleDate = function() {
-  var date = new Date(this.timestamp);
-  var dateString = MONTH_NAMES[date.getMonth()] + ' ' + date.getDate();
-  if (CUR_DATE == null || CUR_DATE != dateString) {
-    CUR_DATE = dateString
-    var $separator = $('<li/>')
-      .text(dateString)
-      .addClass('date-separator');
-    return $separator[0].outerHTML;
-  }
-}
-
 Template.game.events({
   'click #home-link': function() {
     window.location.href = '/';
@@ -166,6 +146,7 @@ Template.game.events({
       $error.text('Winner and loser can\'t be the same').show();
     } else {
       Meteor.call('add_result', winner, loser, room(), function(error, result) {
+        $('#results').html(Meteor.render(Template.results));
         $('.error').hide();
         $('#add-result').slideUp();
         $('#player-list').slideDown();
@@ -174,6 +155,26 @@ Template.game.events({
     }
   }
 });
+
+Template.results.rendered = function() {
+  CUR_DATE = null;
+}
+
+Template.results.results = function() {
+  return Results.find({}, {sort: {timestamp: -1}, limit: 10});
+}
+
+Template.results.maybeSimpleDate = function() {
+  var date = new Date(this.timestamp);
+  var dateString = MONTH_NAMES[date.getMonth()] + ' ' + date.getDate();
+  if (CUR_DATE == null || CUR_DATE != dateString) {
+    CUR_DATE = dateString
+    var $separator = $('<li/>')
+      .text(dateString)
+      .addClass('date-separator');
+    return $separator[0].outerHTML;
+  }
+}
 
 Meteor.startup(function() {
   Deps.autorun(function() {
