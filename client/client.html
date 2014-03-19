@@ -50,6 +50,8 @@
         <ol id="rankings">
           {{#each players}}
             <li>{{name}} ({{rating}})</li>
+          {{else}}
+            <li class="empty">No players found</li>
           {{/each}}
         </ol>
         <ul id="results" style="display: none;">
@@ -98,5 +100,7 @@
       <strong>{{loser}}</strong>
       (<span class="loser-change">{{loser_change}}</span>)
     </li>
+  {{else}}
+    <li class="empty">No results found</li>
   {{/each}}
 </template>

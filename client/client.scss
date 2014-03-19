@@ -56,6 +56,13 @@ h1, h2, h3, h4, h5, h6 {
 
         li {
             margin: 5px 0;
+
+            &.empty {
+                color: #aaa;
+                font-style: italic;
+                list-style: none;
+                margin-left: -40px;
+            }
         }
     }
 
@@ -77,6 +84,12 @@ h1, h2, h3, h4, h5, h6 {
 
             .loser-change {
                 color: #d9534f;
+            }
+
+            &.empty {
+                color: #aaa;
+                font-style: italic;
+                list-style: none;
             }
         }
 

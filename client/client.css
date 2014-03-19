@@ -36,6 +36,11 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 25px; }
   #game ol li {
     margin: 5px 0; }
+    #game ol li.empty {
+      color: #aaa;
+      font-style: italic;
+      list-style: none;
+      margin-left: -40px; }
 #game #results {
   list-style-type: none;
   margin-bottom: 25px;
@@ -48,6 +53,10 @@ h1, h2, h3, h4, h5, h6 {
       color: #5cb85c; }
     #game #results li .loser-change {
       color: #d9534f; }
+    #game #results li.empty {
+      color: #aaa;
+      font-style: italic;
+      list-style: none; }
   #game #results .date-separator {
     font-size: 20px;
     font-weight: bold;
