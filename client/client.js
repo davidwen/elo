@@ -75,7 +75,20 @@ Template.game.title = function() {
 };
 
 Template.game.players = function() {
-  return Players.find({}, {sort: {rating: -1, name: 1}});
+  var players = Players.find({}, {sort: {rating: -1, name: 1}}).fetch();
+  var monthAgo = new Date().getTime() - 30 * 24 * 60 * 60 * 1000;
+  var result = [];
+  var old = [];
+  for (var ii = 0, len = players.length; ii < len; ii++) {
+    var player = players[ii];
+    if (monthAgo > player.last_game) {
+      player.inactive = true;
+      old.push(player);
+    } else {
+      result.push(player);
+    }
+  }
+  return result.concat(old);
 }
 
 Template.game.alphaPlayers = function() {
