@@ -39,6 +39,9 @@ h1, h2, h3, h4, h5, h6, strong {
     margin: 5px 0; }
     #rankings li.empty {
       margin-left: -40px; }
+    #rankings li.inactive {
+      color: #aaa;
+      list-style-type: none; }
 
 .empty {
   color: #aaa;

@@ -50,7 +50,9 @@
         </ul>
         <ol id="rankings">
           {{#each players}}
-            <li>{{name}} ({{rating}})</li>
+            <li {{#if inactive}}class="inactive"{{/if}}>
+              {{name}} ({{rating}})
+            </li>
           {{else}}
             <li class="empty">No players found</li>
           {{/each}}
