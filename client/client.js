@@ -245,14 +245,14 @@ Meteor.startup(function() {
     if (room() != '') {
       Meteor.subscribe('players', room());
       Meteor.subscribe('results', room());
-      var params = window.location.search.substring(1).split('&');
-      for (var ii = 0, len = params.length; ii < len; ii++) {
-        var pair = params[ii].split('=');
-        if (pair.length == 2 && 
-            pair[0] == 'player' &&
-            Players.findOne({name: pair[1], game: room()})) {
-          Session.set('player', pair[1]);
-        }
+    }
+    var params = window.location.search.substring(1).split('&');
+    for (var ii = 0, len = params.length; ii < len; ii++) {
+      var pair = params[ii].split('=');
+      if (pair.length == 2 && 
+          pair[0] == 'player' &&
+          (room() == '' || Players.findOne({name: pair[1], game: room()}))) {
+        Session.set('player', pair[1]);
       }
     }
     Meteor.subscribe('games', room());
