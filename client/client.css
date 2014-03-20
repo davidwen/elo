@@ -46,7 +46,9 @@ h1, h2, h3, h4, h5, h6, strong {
 .empty {
   color: #aaa;
   font-style: italic;
-  list-style: none; }
+  list-style: none;
+  text-align: center;
+  width: 300px; }
 
 #results {
   list-style-type: none;
