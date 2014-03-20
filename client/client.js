@@ -6,6 +6,13 @@ var room = function() {
   return Session.get('room');
 };
 
+var roomFromUrl = function() {
+  var pathSplit = window.location.pathname.split('/');
+  if (pathSplit.length >= 2 && pathSplit[1] != '') {
+    return decodeURI(pathSplit[1]);
+  }
+};
+
 var game = function() {
   return Games.findOne({href: room()});
 };
@@ -246,10 +253,16 @@ Template.results.maybeSimpleDate = function() {
 
 Meteor.startup(function() {
   FastClick.attach(document.body);
+  window.onpopstate = function(event) {
+    var roomUrl = roomFromUrl();
+    if (!Session.equals('room', roomUrl)) {
+      Session.set('room', roomUrl);
+    }
+  };
   Deps.autorun(function() {
-    var pathSplit = window.location.pathname.split('/');
-    if (pathSplit.length >= 2 && pathSplit[1] != '') {
-      Session.set('room', decodeURI(pathSplit[1]));
+    var roomUrl = roomFromUrl();
+    if (roomUrl) {
+      Session.set('room', roomUrl);
       Meteor.subscribe('players', room());
       Meteor.subscribe('results', room());
     }
