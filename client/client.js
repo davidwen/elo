@@ -201,7 +201,7 @@ Template.game.events({
     var winner = $('#opponent').val();
     var loser = loggedInPlayer();
     var $error = $('#add-result .error');
-    if (loser == '') {
+    if (winner == '') {
       $error.text('Please enter an opponent').show();
     } else {
       recordResult(winner, loser, $error);
