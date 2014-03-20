@@ -1,5 +1,5 @@
 Players = new Meteor.Collection('players');
-// {name: 'David', game: foosball}
+// {name: 'David', game: 'foosball', wins: 4, losses: 3, last_game: 12345...}
 
 Games = new Meteor.Collection('games');
 // {name: 'Foosball', href: 'foosball'}
