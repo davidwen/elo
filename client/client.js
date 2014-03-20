@@ -3,11 +3,7 @@ var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'
 var resultsDeps = new Deps.Dependency();
 
 var room = function() {
-  var pathSplit = window.location.pathname.split('/');
-  if (pathSplit.length >= 2 && pathSplit[1] != '') {
-    return decodeURI(pathSplit[1]);
-  }
-  return '';
+  return Session.get('room');
 };
 
 var game = function() {
@@ -49,7 +45,7 @@ Template.index.rendered = function() {
 };
 
 Template.index.show = function() {
-  return room() == '';
+  return !room();
 };
 
 Template.index.games = function () {
@@ -58,8 +54,12 @@ Template.index.games = function () {
 
 Template.index.events({
   'click .game-link': function() {
-    window.location.href = retainPlayerParam(
-      $(event.target).parents('a').attr('href'));
+    var href = $(event.target).parents('a').attr('href');
+    window.history.pushState(
+      {},
+      '',
+      retainPlayerParam(href));
+    Session.set('room', href);
     return false;
   },
 
@@ -90,14 +90,18 @@ Template.index.events({
       if (error) {
         $error.text(error.reason).show();
       } else {
-        window.location.href = retainPlayerParam('/' + result);
+        window.history.pushState(
+          {},
+          '',
+          retainPlayerParam(result));
+        Session.set('room', result);
       }
     });
   }
 });
 
 Template.game.show = function() {
-  return room() != '';
+  return room();
 };
 
 Template.game.title = function() {
@@ -119,7 +123,11 @@ Template.game.loggedin = function() {
 
 Template.game.events({
   'click #home-link': function() {
-    window.location.href = retainPlayerParam('/');
+    window.history.pushState(
+      {},
+      '',
+      retainPlayerParam('/'));
+    Session.set('room', null);
   },
 
   'click #results-tab': function() {
@@ -242,7 +250,9 @@ Template.results.maybeSimpleDate = function() {
 
 Meteor.startup(function() {
   Deps.autorun(function() {
-    if (room() != '') {
+    var pathSplit = window.location.pathname.split('/');
+    if (pathSplit.length >= 2 && pathSplit[1] != '') {
+      Session.set('room', decodeURI(pathSplit[1]));
       Meteor.subscribe('players', room());
       Meteor.subscribe('results', room());
     }
@@ -251,7 +261,7 @@ Meteor.startup(function() {
       var pair = params[ii].split('=');
       if (pair.length == 2 && 
           pair[0] == 'player' &&
-          (room() == '' || Players.findOne({name: pair[1], game: room()}))) {
+          (!room() || Players.findOne({name: pair[1], game: room()}))) {
         Session.set('player', pair[1]);
       }
     }
