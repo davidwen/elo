@@ -90,6 +90,10 @@ var checkInactive = function() {
     {multi: true});
 }
 
+Meteor.setInterval(function() {
+  checkInactive();
+}, 1000 * 60 * 60 * 24);
+
 Meteor.startup(function() {
   checkInactive();
 });
