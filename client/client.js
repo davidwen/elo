@@ -114,10 +114,7 @@ Template.game.alphaPlayers = function() {
 }
 
 Template.game.loggedin = function() {
-  var player = loggedInPlayer();
-  if (player && Players.findOne({name: player, game: room()})) {
-    return player;
-  }
+  return loggedInPlayer();
 }
 
 Template.game.events({
@@ -244,17 +241,19 @@ Template.results.maybeSimpleDate = function() {
 }
 
 Meteor.startup(function() {
-  var params = window.location.search.substring(1).split('&');
-  for (var ii = 0, len = params.length; ii < len; ii++) {
-    var pair = params[ii].split('=');
-    if (pair.length == 2 && pair[0] == 'player') {
-      Session.set('player', pair[1]);
-    }
-  }
   Deps.autorun(function() {
     if (room() != '') {
       Meteor.subscribe('players', room());
       Meteor.subscribe('results', room());
+      var params = window.location.search.substring(1).split('&');
+      for (var ii = 0, len = params.length; ii < len; ii++) {
+        var pair = params[ii].split('=');
+        if (pair.length == 2 && 
+            pair[0] == 'player' &&
+            Players.findOne({name: pair[1], game: room()})) {
+          Session.set('player', pair[1]);
+        }
+      }
     }
     Meteor.subscribe('games', room());
     Results.find({}).observe({
