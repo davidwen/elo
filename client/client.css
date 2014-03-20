@@ -75,6 +75,9 @@ h1, h2, h3, h4, h5, h6, strong {
   margin-bottom: 20px;
   text-align: center; }
 
+#add-win-submit, #add-loss-submit {
+  height: 60px; }
+
 #winner, #loser, #opponent {
   margin-bottom: 25px; }
 
