@@ -49,7 +49,7 @@ Template.index.show = function() {
 };
 
 Template.index.games = function () {
-  return Games.find({});
+  return Games.find({}, {sort: {name: 1}});
 };
 
 Template.index.events({
