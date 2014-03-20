@@ -40,10 +40,6 @@ var retainPlayerParam = function(href) {
   return href;
 }
 
-Template.index.rendered = function() {
-  FastClick.attach(document.body);
-};
-
 Template.index.show = function() {
   return !room();
 };
@@ -249,6 +245,7 @@ Template.results.maybeSimpleDate = function() {
 }
 
 Meteor.startup(function() {
+  FastClick.attach(document.body);
   Deps.autorun(function() {
     var pathSplit = window.location.pathname.split('/');
     if (pathSplit.length >= 2 && pathSplit[1] != '') {
