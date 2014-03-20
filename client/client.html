@@ -72,22 +72,36 @@
       </div>
       <div id="add-result" style="display: none;">
         <h2 class="title">Record Result</h2>
-        <h4>Winner:</h4>
-        <select id="winner" class="form-control">
-          <option value="">(Select Winner)</option>
-          {{#each alphaPlayers}}
-            <option value="{{name}}">{{name}}</option>
-          {{/each}}
-        </select>
-        <h4>Loser:</h4>
-        <select id="loser" class="form-control">
-          <option value="">(Select Loser)</option>
-          {{#each alphaPlayers}}
-            <option value="{{name}}">{{name}}</option>
-          {{/each}}
-        </select>
-        <div class="error" style="display: none;"></div>
-        <button id="add-result-submit" class="btn btn-primary btn-lg">Add Result</button>
+        {{#if loggedin}}
+          <h3 class="acting-as">Acting as {{loggedin}}</h3>
+          <h4>Opponent:</h4>
+          <select id="opponent" class="form-control">
+            <option value="">(Select Opponent)</option>
+            {{#each alphaPlayers}}
+              <option value="{{name}}">{{name}}</option>
+            {{/each}}
+          </select>
+          <div class="error" style="display: none;"></div>
+          <button id="add-win-submit" class="btn btn-success btn-lg">I Won</button>
+          <button id="add-loss-submit" class="btn btn-warning btn-lg">I Lost</button>
+        {{else}}
+          <h4>Winner:</h4>
+          <select id="winner" class="form-control">
+            <option value="">(Select Winner)</option>
+            {{#each alphaPlayers}}
+              <option value="{{name}}">{{name}}</option>
+            {{/each}}
+          </select>
+          <h4>Loser:</h4>
+          <select id="loser" class="form-control">
+            <option value="">(Select Loser)</option>
+            {{#each alphaPlayers}}
+              <option value="{{name}}">{{name}}</option>
+            {{/each}}
+          </select>
+          <div class="error" style="display: none;"></div>
+          <button id="add-result-submit" class="btn btn-primary btn-lg">Add Result</button>
+        {{/if}}
         <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
       </div>
     </div>

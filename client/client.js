@@ -14,6 +14,25 @@ var game = function() {
   return Games.findOne({href: room()});
 };
 
+var recordResult = function(winner, loser, $error) {
+  if (winner == loser) {
+    $error.text('Winner and loser can\'t be the same').show();
+  } else {
+    Meteor.call('add_result', winner, loser, room(), function(error, result) {
+      if (result) {
+        $('#undo-record-link').attr('result-id', result).show();
+        setTimeout(function() {
+          $('#undo-record-link').removeAttr('result-id').slideUp();
+        }, 20 * 1000);
+      }
+      $error.hide();
+      $('#add-result').slideUp();
+      $('#player-list').slideDown();
+      $('#winner, #loser, #opponent').val('');
+    });
+  }
+};
+
 Template.index.rendered = function() {
   FastClick.attach(document.body);
 };
@@ -95,6 +114,13 @@ Template.game.alphaPlayers = function() {
   return Players.find({}, {sort: {name: 1}});
 }
 
+Template.game.loggedin = function() {
+  var player = Session.get('player');
+  if (player && Players.findOne({name: player, game: room()})) {
+    return player;
+  }
+}
+
 Template.game.events({
   'click #home-link': function() {
     window.location.href = '/';
@@ -160,21 +186,29 @@ Template.game.events({
     var $error = $('#add-result .error');
     if (winner == '' || loser == '') {
       $error.text('Please enter a winner and a loser').show();
-    } else if (winner == loser) {
-      $error.text('Winner and loser can\'t be the same').show();
+    }
+    recordResult(winner, loser, $error);
+  },
+
+  'click #add-win-submit': function() {
+    var winner = Session.get('player');
+    var loser = $('#opponent').val();
+    var $error = $('#add-result .error');
+    if (loser == '') {
+      $error.text('Please enter an opponent').show();
     } else {
-      Meteor.call('add_result', winner, loser, room(), function(error, result) {
-        if (result) {
-          $('#undo-record-link').attr('result-id', result).show();
-          setTimeout(function() {
-            $('#undo-record-link').removeAttr('result-id').slideUp();
-          }, 20 * 1000);
-        }
-        $error.hide();
-        $('#add-result').slideUp();
-        $('#player-list').slideDown();
-        $('#winner, #loser').val('');
-      });
+      recordResult(winner, loser, $error);
+    }
+  },
+
+  'click #add-loss-submit': function() {
+    var winner = $('#opponent').val();
+    var loser = Session.get('player');
+    var $error = $('#add-result .error');
+    if (loser == '') {
+      $error.text('Please enter an opponent').show();
+    } else {
+      recordResult(winner, loser, $error);
     }
   },
 
@@ -211,6 +245,13 @@ Template.results.maybeSimpleDate = function() {
 }
 
 Meteor.startup(function() {
+  var params = window.location.search.substring(1).split('&');
+  for (var ii = 0, len = params.length; ii < len; ii++) {
+    var pair = params[ii].split('=');
+    if (pair.length == 2 && pair[0] == 'player') {
+      Session.set('player', pair[1]);
+    }
+  }
   Deps.autorun(function() {
     if (room() != '') {
       Meteor.subscribe('players', room());

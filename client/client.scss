@@ -99,7 +99,13 @@ h1, h2, h3, h4, h5, h6, strong {
     color: #d9534f;
 }
 
-#winner, #loser {
+.acting-as {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#winner, #loser, #opponent {
     margin-bottom: 25px;
 }
 
