@@ -55,7 +55,10 @@ h1, h2, h3, h4, h5, h6, strong {
   margin-bottom: 25px;
   padding: 0; }
   #results li {
-    margin: 2px 0; }
+    margin: 2px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
   #results .date-separator {
     color: #666;
     font-size: 20px;
