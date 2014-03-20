@@ -22,7 +22,8 @@ Meteor.methods({
         rating: 1000,
         wins: 0,
         losses: 0,
-        last_game: 0
+        last_game: 0,
+        inactive: 0
       });
       return;
     }
@@ -41,12 +42,14 @@ Meteor.methods({
                      {$set: {
                         rating: w.rating + winnerDiff,
                         wins: w.wins + 1,
-                        last_game: timestamp}});
+                        last_game: timestamp,
+                        inactive: 0}});
       Players.update(l._id,
                      {$set: {
                         rating: l.rating + loserDiff,
                         losses: l.losses + 1,
-                        last_game: timestamp}});
+                        last_game: timestamp,
+                        inactive: 0}});
       var resultId = Results.insert({
         winner: winner,
         loser: loser,
@@ -77,4 +80,16 @@ Meteor.methods({
       }
     }
   }
+});
+
+var checkInactive = function() {
+  var monthAgo = new Date().getTime() - 1000 * 60 * 60 * 24 * 30;
+  Players.update(
+    {last_game: {$lt: monthAgo}},
+    {$set: {inactive: 1}},
+    {multi: true});
+}
+
+Meteor.startup(function() {
+  checkInactive();
 });
