@@ -64,6 +64,10 @@ h1, h2, h3, h4, h5, h6, strong {
     #results .date-separator:first-child {
       margin-top: 0; }
 
+#more-results {
+  display: block;
+  padding-top: 15px; }
+
 .winner-change {
   color: #5cb85c; }
 

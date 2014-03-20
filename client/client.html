@@ -121,4 +121,9 @@
   {{else}}
     <li class="empty">No results found</li>
   {{/each}}
+  {{#if moreResults}}
+    <a id="more-results" href="#">
+      <li>More Results...</li>
+    </a>
+  {{/if}}
 </template>

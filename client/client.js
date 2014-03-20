@@ -1,4 +1,5 @@
 var CUR_DATE;
+var RESULT_LIMIT;
 var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 var resultsDeps = new Deps.Dependency();
 
@@ -236,7 +237,7 @@ Template.results.rendered = function() {
 
 Template.results.results = function() {
   resultsDeps.depend();
-  return Results.find({}, {sort: {timestamp: -1}, limit: 10});
+  return Results.find({}, {sort: {timestamp: -1}, limit: Session.get('resultlimit')});
 }
 
 Template.results.maybeSimpleDate = function() {
@@ -251,8 +252,20 @@ Template.results.maybeSimpleDate = function() {
   }
 }
 
+Template.results.moreResults = function() {
+  return Results.find({}).count() > Session.get('resultlimit');
+}
+
+Template.results.events({
+  'click #more-results': function() {
+    Session.set('resultlimit', Session.get('resultlimit') + 10);
+    return false;
+  }
+})
+
 Meteor.startup(function() {
   FastClick.attach(document.body);
+  Session.set('resultlimit', 10);
   window.onpopstate = function(event) {
     var roomUrl = roomFromUrl();
     if (!Session.equals('room', roomUrl)) {
