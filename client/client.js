@@ -14,6 +14,10 @@ var game = function() {
   return Games.findOne({href: room()});
 };
 
+var loggedInPlayer = function() {
+  return Session.get('player');
+}
+
 var recordResult = function(winner, loser, $error) {
   if (winner == loser) {
     $error.text('Winner and loser can\'t be the same').show();
@@ -33,6 +37,13 @@ var recordResult = function(winner, loser, $error) {
   }
 };
 
+var retainPlayerParam = function(href) {
+  if (loggedInPlayer()) {
+    href += '?player=' + loggedInPlayer();
+  }
+  return href;
+}
+
 Template.index.rendered = function() {
   FastClick.attach(document.body);
 };
@@ -47,7 +58,8 @@ Template.index.games = function () {
 
 Template.index.events({
   'click .game-link': function() {
-    window.location.href = $(event.target).parents('a').attr('href');
+    window.location.href = retainPlayerParam(
+      $(event.target).parents('a').attr('href'));
     return false;
   },
 
@@ -78,7 +90,7 @@ Template.index.events({
       if (error) {
         $error.text(error.reason).show();
       } else {
-        window.location.href = '/' + result;
+        window.location.href = retainPlayerParam('/' + result);
       }
     });
   }
@@ -115,7 +127,7 @@ Template.game.alphaPlayers = function() {
 }
 
 Template.game.loggedin = function() {
-  var player = Session.get('player');
+  var player = loggedInPlayer();
   if (player && Players.findOne({name: player, game: room()})) {
     return player;
   }
@@ -123,7 +135,7 @@ Template.game.loggedin = function() {
 
 Template.game.events({
   'click #home-link': function() {
-    window.location.href = '/';
+    window.location.href = retainPlayerParam('/');
   },
 
   'click #results-tab': function() {
@@ -191,7 +203,7 @@ Template.game.events({
   },
 
   'click #add-win-submit': function() {
-    var winner = Session.get('player');
+    var winner = loggedInPlayer();
     var loser = $('#opponent').val();
     var $error = $('#add-result .error');
     if (loser == '') {
@@ -203,7 +215,7 @@ Template.game.events({
 
   'click #add-loss-submit': function() {
     var winner = $('#opponent').val();
-    var loser = Session.get('player');
+    var loser = loggedInPlayer();
     var $error = $('#add-result .error');
     if (loser == '') {
       $error.text('Please enter an opponent').show();
@@ -212,7 +224,7 @@ Template.game.events({
     }
   },
 
-  'click #undo-record-link': function(event) {
+  'click #undo-record-link': function() {
     var $button = $(event.target);
     var resultId = $button.attr('result-id');
     if (resultId) {
