@@ -1,33 +1,39 @@
 Meteor.methods({
   add_game: function (name) {
     var href = name.toLowerCase().replace(/\W+/g, '');
-    if (href.length > 0 && !Games.findOne({href: href})) {
-      Games.insert({name: name, href: href});
-      return href;
-    }
+    var exists = Games.findOne({href: href}) != null;
     if (href.length == 0) {
       throw new Meteor.Error(400, 'Enter a game name');
-    } else {
+    } else if (name.length > 20) {
+      throw new Meteor.Error(400, 'Name has a 20 character limit')
+    } else if (exists) {
       throw new Meteor.Error(400, 'Game "' + name + '" already exists');
     }
+    Games.insert({name: name, href: href});
+    return href;
   },
 
   add_player: function (name, game) {
     var g = Games.findOne({href: game});
-    var p = Players.findOne({name: name, game: game});
-    if (g && !p) {
-      Players.insert({
-        name: name,
-        game: game,
-        rating: 1000,
-        wins: 0,
-        losses: 0,
-        last_game: 0,
-        inactive: 0
-      });
-      return;
+    var exists = Players.findOne({name: name, game: game}) != null;
+    if (name.length == 0) {
+      throw new Meteor.Error(400, 'Enter a player name');
+    } else if (name.length > 20) {
+      throw new Meteor.Error(400, 'Name has a 20 character limit')
+    } else if (exists) {
+      throw new Meteor.Error(400, 'Player "' + name + '" already exists');
+    } else if (g == null) {
+      throw new Meteor.Error(400, 'Invalid game');
     }
-    throw new Meteor.Error(400, 'Player "' + name + '" already exists');
+    Players.insert({
+      name: name,
+      game: game,
+      rating: 1000,
+      wins: 0,
+      losses: 0,
+      last_game: 0,
+      inactive: 1
+    });
   },
 
   add_result: function(winner, loser, game) {
