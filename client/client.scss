@@ -1,3 +1,5 @@
+////// Global
+
 body {
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -6,6 +8,19 @@ h1, h2, h3, h4, h5, h6, strong {
     font-weight: 600;
 }
 
+.btn {
+    font-weight: 600;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.error {
+    color: red;
+    margin-bottom: 25px;
+}
+
+////// Layout
+
 #index,
 #game {
     font-size: 18px;
@@ -13,6 +28,14 @@ h1, h2, h3, h4, h5, h6, strong {
     width: 300px;
 }
 
+.title {
+    border-bottom: 1px solid black;
+    margin: 10px 0 25px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+////// Index
 
 #game-list {
     font-size: 24px;
@@ -37,6 +60,15 @@ h1, h2, h3, h4, h5, h6, strong {
     }
 }
 
+////// Add Player
+
+#name-input {
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+////// Game
+
 #game-nav {
     margin-top: 10px;
     margin-bottom: 25px;
@@ -46,6 +78,8 @@ h1, h2, h3, h4, h5, h6, strong {
         width: 50%;
     }
 }
+
+////// Rankings
 
 #rankings {
     margin-bottom: 25px;
@@ -71,6 +105,8 @@ h1, h2, h3, h4, h5, h6, strong {
     text-align: center;
     width: 300px;
 }
+
+////// Results
 
 #results {
     list-style-type: none;
@@ -109,6 +145,8 @@ h1, h2, h3, h4, h5, h6, strong {
     color: #d9534f;
 }
 
+////// Record Result
+
 .acting-as {
     color: #666;
     margin-bottom: 20px;
@@ -121,27 +159,4 @@ h1, h2, h3, h4, h5, h6, strong {
 
 #winner, #loser, #opponent {
     margin-bottom: 25px;
-}
-
-#name-input {
-    margin-bottom: 25px;
-    width: 100%;
-}
-
-.btn {
-    font-weight: 600;
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.error {
-    color: red;
-    margin-bottom: 25px;
-}
-
-.title {
-    border-bottom: 1px solid black;
-    margin: 10px 0 25px;
-    padding-bottom: 10px;
-    text-align: center;
 }

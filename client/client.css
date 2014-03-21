@@ -4,11 +4,26 @@ body {
 h1, h2, h3, h4, h5, h6, strong {
   font-weight: 600; }
 
+.btn {
+  font-weight: 600;
+  margin-bottom: 15px;
+  width: 100%; }
+
+.error {
+  color: red;
+  margin-bottom: 25px; }
+
 #index,
 #game {
   font-size: 18px;
   margin: 0 auto;
   width: 300px; }
+
+.title {
+  border-bottom: 1px solid black;
+  margin: 10px 0 25px;
+  padding-bottom: 10px;
+  text-align: center; }
 
 #game-list {
   font-size: 24px;
@@ -25,6 +40,10 @@ h1, h2, h3, h4, h5, h6, strong {
     margin: 10px 0; }
     #game-list li:hover {
       background-color: #ddd; }
+
+#name-input {
+  margin-bottom: 25px;
+  width: 100%; }
 
 #game-nav {
   margin-top: 10px;
@@ -87,22 +106,3 @@ h1, h2, h3, h4, h5, h6, strong {
 
 #winner, #loser, #opponent {
   margin-bottom: 25px; }
-
-#name-input {
-  margin-bottom: 25px;
-  width: 100%; }
-
-.btn {
-  font-weight: 600;
-  margin-bottom: 15px;
-  width: 100%; }
-
-.error {
-  color: red;
-  margin-bottom: 25px; }
-
-.title {
-  border-bottom: 1px solid black;
-  margin: 10px 0 25px;
-  padding-bottom: 10px;
-  text-align: center; }
