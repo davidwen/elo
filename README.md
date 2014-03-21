@@ -1,5 +1,7 @@
 ### Elo.js
 
+http://elo.meteor.com
+
 #### Overview
 
 Easily create ladders using the Elo rating system, built with the Meteor.js framework.
@@ -28,7 +30,3 @@ To deploy an Elo.js instance
 
 * Mobile friendly
 * Can "login" as player by adding ```?player=<player name>``` to end of URL (e.g. http://elo.meteor.com?player=David). This changes the result submission screen to just choose your opponent instead of a winner and loser.
-
-#### Demo
-
-http://elo.meteor.com
