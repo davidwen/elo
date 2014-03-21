@@ -42,10 +42,15 @@ var recordResult = function(winner, loser, $error) {
   }
 };
 
-var retainPlayerParam = function(href) {
+var goTo = function(href) {
+  Session.set('room', href);
+  if (href == null) {
+    href = '/';
+  }
   if (loggedInPlayer()) {
     href += '?player=' + loggedInPlayer();
   }
+  window.history.pushState({}, '', href);
   return href;
 }
 
@@ -60,11 +65,7 @@ Template.index.games = function () {
 Template.index.events({
   'click .game-link': function() {
     var href = $(event.target).parents('a').attr('href');
-    window.history.pushState(
-      {},
-      '',
-      retainPlayerParam(href));
-    Session.set('room', href);
+    goTo(href);
     return false;
   },
 
@@ -96,11 +97,7 @@ Template.index.events({
         $error.text(error.reason).show();
         return;
       } else {
-        window.history.pushState(
-          {},
-          '',
-          retainPlayerParam(result));
-        Session.set('room', result);
+        goTo(result);
       }
     });
   }
@@ -129,11 +126,7 @@ Template.game.loggedin = function() {
 
 Template.game.events({
   'click #home-link': function() {
-    window.history.pushState(
-      {},
-      '',
-      retainPlayerParam('/'));
-    Session.set('room', null);
+    goTo(null);
   },
 
   'click #results-tab': function() {
