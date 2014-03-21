@@ -74,14 +74,12 @@ Template.index.events({
     $('#add-game').slideDown(function() {
       $('#name-input').focus();
     });
-    return false;
   },
 
   'click .back-link': function () {
     $('.error').hide();
     $('#add-game').slideUp();
     $('#game-list-container').slideDown();
-    return false;
   },
 
   'click #add-game-submit': function() {
