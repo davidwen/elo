@@ -25,6 +25,7 @@ var loggedInPlayer = function() {
 var recordResult = function(winner, loser, $error) {
   if (winner == loser) {
     $error.text('Winner and loser can\'t be the same').show();
+    return;
   } else {
     Meteor.call('add_result', winner, loser, room(), function(error, result) {
       if (result) {
@@ -93,6 +94,7 @@ Template.index.events({
     Meteor.call('add_game', name, function(error, result) {
       if (error) {
         $error.text(error.reason).show();
+        return;
       } else {
         window.history.pushState(
           {},
@@ -172,13 +174,15 @@ Template.game.events({
   'click #add-player-submit': function() {
     var name = $('#name-input').val();
     var $error = $('#add-player .error');
-    if (!name) {
+    if (name.trim().length == 0) {
       $error.text('Please enter a player name').show();
+      return;
     }
     $error.hide();
     Meteor.call('add_player', name, room(), function(error, result) {
       if (error) {
         $error.text(error.reason).show();
+        return;
       } else {
         $error.hide();
         $('#add-player').slideUp();
@@ -194,6 +198,7 @@ Template.game.events({
     var $error = $('#add-result .error');
     if (winner == '' || loser == '') {
       $error.text('Please enter a winner and a loser').show();
+      return;
     }
     recordResult(winner, loser, $error);
   },
@@ -204,6 +209,7 @@ Template.game.events({
     var $error = $('#add-result .error');
     if (loser == '') {
       $error.text('Please enter an opponent').show();
+      return;
     } else {
       recordResult(winner, loser, $error);
     }
@@ -215,6 +221,7 @@ Template.game.events({
     var $error = $('#add-result .error');
     if (winner == '') {
       $error.text('Please enter an opponent').show();
+      return;
     } else {
       recordResult(winner, loser, $error);
     }
