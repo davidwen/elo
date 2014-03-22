@@ -7,12 +7,9 @@ var room = function() {
   return Session.get('room');
 };
 
-var roomFromUrl = function() {
-  var pathSplit = window.location.pathname.split('/');
-  if (pathSplit.length >= 2 && pathSplit[1] != '') {
-    return decodeURI(pathSplit[1]);
-  }
-};
+var viewPlayer = function() {
+  return Session.get('viewplayer')
+}
 
 var game = function() {
   return Games.findOne({href: room()});
@@ -43,15 +40,38 @@ var recordResult = function(winner, loser, $error) {
 };
 
 var goTo = function(href) {
-  Session.set('room', href);
   if (href == null) {
-    href = '/';
+    href = '';
   }
   if (loggedInPlayer()) {
     href += '?player=' + loggedInPlayer();
   }
-  window.history.pushState({}, '', href);
+  window.history.pushState({}, '', '/' + href);
+  setSession();
   return href;
+}
+
+var setSession = function() {
+  var href = window.location.pathname;
+  if (href == null) {
+    href = '';
+    setIfNotEqual('room', null);
+    setIfNotEqual('viewplayer', null);
+  } else {
+    var split = href.split('/');
+    if (split.length > 2) {
+      setIfNotEqual('viewplayer', decodeURI(split[2]));
+    } else {
+      setIfNotEqual('viewplayer', null);
+    }
+    setIfNotEqual('room', decodeURI(split[1]));
+  }
+}
+
+var setIfNotEqual = function(key, value) {
+  if (!Session.equals(key, value)) {
+    Session.set(key, value);
+  }
 }
 
 Template.index.show = function() {
@@ -102,7 +122,7 @@ Template.index.events({
 });
 
 Template.game.show = function() {
-  return room();
+  return room() && !viewPlayer();
 };
 
 Template.game.title = function() {
@@ -226,6 +246,10 @@ Template.game.events({
         $button.slideUp();
       });
     }
+  },
+
+  'click .player-link': function() {
+    goTo(room() + '/' + $(event.target).attr('data-name'));
   }
 });
 
@@ -261,21 +285,31 @@ Template.results.events({
   }
 })
 
+Template.player.show = function() {
+  return viewPlayer() != null;
+}
+
+Template.player.player = function() {
+  return Players.findOne({name: viewPlayer(), game: room()});
+}
+
+Template.player.events({
+  'click .back-link': function() {
+    goTo(room());
+  }
+})
+
 Meteor.startup(function() {
   FastClick.attach(document.body);
   Session.set('resultlimit', 10);
   window.onpopstate = function(event) {
-    var roomUrl = roomFromUrl();
-    if (!Session.equals('room', roomUrl)) {
-      Session.set('room', roomUrl);
-    }
+    setSession();
   };
   Deps.autorun(function() {
-    var roomUrl = roomFromUrl();
-    if (roomUrl) {
-      Session.set('room', roomUrl);
+    setSession();
+    if (room()) {
       Meteor.subscribe('players', room());
-      Meteor.subscribe('results', room());
+      Meteor.subscribe('results', room(), viewPlayer());
     }
     var params = window.location.search.substring(1).split('&');
     for (var ii = 0, len = params.length; ii < len; ii++) {

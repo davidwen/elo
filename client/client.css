@@ -13,8 +13,12 @@ h1, h2, h3, h4, h5, h6, strong {
   color: red;
   margin-bottom: 25px; }
 
+.clear {
+  clear: both; }
+
 #index,
-#game {
+#game,
+#player {
   font-size: 18px;
   margin: 0 auto;
   width: 300px; }
@@ -62,6 +66,9 @@ h1, h2, h3, h4, h5, h6, strong {
       color: #aaa;
       list-style-type: none; }
 
+.player-link {
+  cursor: pointer; }
+
 .empty {
   color: #aaa;
   font-style: italic;
@@ -106,3 +113,34 @@ h1, h2, h3, h4, h5, h6, strong {
 
 #winner, #loser, #opponent {
   margin-bottom: 25px; }
+
+.player-header {
+  font-variant: small-caps;
+  font-weight: bold;
+  text-align: center; }
+
+.player-value {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center; }
+
+.player-rating-container {
+  float: left;
+  width: 40%; }
+
+.player-wins-container {
+  float: left;
+  width: 30%; }
+
+.player-losses-container {
+  float: left;
+  width: 30%; }
+
+.player-wins {
+  color: green; }
+
+.player-losses {
+  color: red; }
+
+.player-results {
+  margin: 25px 0; }

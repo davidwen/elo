@@ -20,7 +20,12 @@ if (Meteor.isServer) {
     return Players.find({game: game});
   });
 
-  Meteor.publish('results', function(game) {
+  Meteor.publish('results', function(game, player) {
+    if (player) {
+      return Results.find(
+        {game: game,
+         $or: [{winner: player}, {loser: player}]});
+    }
     return Results.find({game: game});
   });
 }

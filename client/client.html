@@ -11,6 +11,7 @@
 <body>
   {{> index}}
   {{> game}}
+  {{> player}}
 </body>
 
 <template name="index">
@@ -52,7 +53,7 @@
         <ol id="rankings">
           {{#each players}}
             <li {{#if inactive}}class="inactive"{{/if}}>
-              {{name}} ({{rating}})
+              <span class="player-link" data-name="{{name}}">{{name}} ({{rating}})</span>
             </li>
           {{else}}
             <li class="empty">No players found</li>
@@ -125,5 +126,32 @@
     <a id="more-results" href="#">
       <li>More Results...</li>
     </a>
+  {{/if}}
+</template>
+
+<template name="player">
+  {{#if show}}
+    <div id="player">
+      {{#with player}}
+        <h2 class="title">{{name}}</h2>
+        <div class="player-rating-container">
+          <div class="player-header">Rating</div>
+          <div class="player-rating player-value">{{rating}}</div>
+        </div>
+        <div class="player-wins-container">
+          <div class="player-header">Wins</div>
+          <div class="player-wins player-value">{{wins}}</div>
+        </div>
+        <div class="player-losses-container">
+          <div class="player-header">Losses</div>
+          <div class="player-losses player-value">{{losses}}</div>
+        </div>
+        <div class="clear"></div>
+        <div id="results" class="player-results">
+          {{> results}}
+        </div>
+        <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
+      {{/with}}
+    </div>
   {{/if}}
 </template>
