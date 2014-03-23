@@ -48,6 +48,7 @@ var goTo = function(href) {
   }
   window.history.pushState({}, '', '/' + href);
   setSession();
+  Session.set('resultlimit', 10);
   return href;
 }
 
