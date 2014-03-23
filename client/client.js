@@ -259,7 +259,11 @@ Template.results.rendered = function() {
 
 Template.results.results = function() {
   resultsDeps.depend();
-  return Results.find({}, {sort: {timestamp: -1}, limit: Session.get('resultlimit')});
+  var query = {};
+  if (viewPlayer()) {
+    query = {$or: [{winner: viewPlayer()}, {loser: viewPlayer()}]};
+  }
+  return Results.find(query, {sort: {timestamp: -1}, limit: Session.get('resultlimit')});
 }
 
 Template.results.maybeSimpleDate = function() {
