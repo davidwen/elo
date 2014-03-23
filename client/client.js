@@ -1,5 +1,4 @@
 var CUR_DATE;
-var RESULT_LIMIT;
 var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 var resultsDeps = new Deps.Dependency();
 
