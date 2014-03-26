@@ -52,7 +52,7 @@
         </ul>
         <ol id="rankings">
           {{#each players}}
-            <li {{#if inactive}}class="inactive"{{/if}}>
+            <li class="{{#if inactive}}inactive {{/if}}{{self name}}">
               <span class="player-link" data-name="{{name}}">{{name}} ({{rating}})</span>
             </li>
           {{else}}

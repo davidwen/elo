@@ -134,6 +134,10 @@ Template.game.players = function() {
   return Players.find({}, {sort: {inactive: 1, rating: -1, name: 1}});
 }
 
+Template.game.self = function(name) {
+  return loggedInPlayer() == name ? 'self' : '';
+}
+
 Template.game.alphaPlayers = function() {
   return Players.find({}, {sort: {name: 1}});
 }

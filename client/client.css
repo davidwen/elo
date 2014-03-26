@@ -65,6 +65,8 @@ h1, h2, h3, h4, h5, h6, strong {
     #rankings li.inactive {
       color: #aaa;
       list-style-type: none; }
+    #rankings li.self {
+      color: #f39c12; }
 
 .player-link {
   cursor: pointer; }
