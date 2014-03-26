@@ -301,7 +301,47 @@ Template.player.player = function() {
   return Players.findOne({name: viewPlayer(), game: room()});
 }
 
+Template.player.opponents = function() {
+  var results = Results.find({}).fetch();
+  var opponentMap = {};
+  for (var ii = 0, len = results.length; ii < len; ii++) {
+    var result = results[ii];
+    var won = result.winner == viewPlayer();
+    var opponent = won ? result.loser : result.winner;
+    if (!opponentMap[opponent]) {
+      opponentMap[opponent] = {name: opponent, wins: 0, losses: 0};
+    }
+    if (won) {
+      opponentMap[opponent].wins++;
+    } else {
+      opponentMap[opponent].losses++;
+    }
+  }
+  var opponents = [];
+  for (var key in opponentMap) {
+    opponents.push(opponentMap[key]);
+  }
+  opponents.sort(function(a, b) { return b.wins + b.losses - a.wins - a.losses; });
+  return opponents;
+}
+
 Template.player.events({
+  'click #versus-tab': function() {
+    $('.active').removeClass('active');
+    $('#versus-tab').addClass('active');
+    $('#results').slideUp();
+    $('#versus').slideDown();
+    return false;
+  },
+
+  'click #results-tab': function() {
+    $('.active').removeClass('active');
+    $('#results-tab').addClass('active');
+    $('#versus').slideUp();
+    $('#results').slideDown();
+    return false;
+  },
+
   'click .back-link': function() {
     goTo(room());
   }

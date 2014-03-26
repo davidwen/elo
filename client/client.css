@@ -29,6 +29,13 @@ h1, h2, h3, h4, h5, h6, strong {
   padding-bottom: 10px;
   text-align: center; }
 
+.nav-tabs {
+  margin-top: 10px;
+  margin-bottom: 25px; }
+  .nav-tabs li {
+    text-align: center;
+    width: 50%; }
+
 #game-list {
   font-size: 24px;
   list-style-type: none;
@@ -48,13 +55,6 @@ h1, h2, h3, h4, h5, h6, strong {
 #name-input {
   margin-bottom: 25px;
   width: 100%; }
-
-#game-nav {
-  margin-top: 10px;
-  margin-bottom: 25px; }
-  #game-nav li {
-    text-align: center;
-    width: 50%; }
 
 #rankings {
   margin-bottom: 25px; }
@@ -148,3 +148,15 @@ h1, h2, h3, h4, h5, h6, strong {
 
 .player-results {
   margin: 25px 0; }
+
+#versus {
+  margin-bottom: 20px; }
+  #versus .opponent {
+    margin-bottom: 5px; }
+    #versus .opponent .opponent-name {
+      float: left;
+      font-weight: bold;
+      width: 70%; }
+    #versus .opponent .opponent-record {
+      float: right;
+      width: 30%; }

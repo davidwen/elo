@@ -40,6 +40,16 @@ h1, h2, h3, h4, h5, h6, strong {
     text-align: center;
 }
 
+.nav-tabs {
+    margin-top: 10px;
+    margin-bottom: 25px;
+
+    li {
+        text-align: center;
+        width: 50%;
+    }
+}
+
 ////// Index
 
 #game-list {
@@ -72,17 +82,6 @@ h1, h2, h3, h4, h5, h6, strong {
     width: 100%;
 }
 
-////// Game
-
-#game-nav {
-    margin-top: 10px;
-    margin-bottom: 25px;
-
-    li {
-        text-align: center;
-        width: 50%;
-    }
-}
 
 ////// Rankings
 
@@ -217,4 +216,23 @@ h1, h2, h3, h4, h5, h6, strong {
 
 .player-results {
     margin: 25px 0;
+}
+
+#versus {
+    margin-bottom: 20px;
+
+    .opponent {
+        margin-bottom: 5px;
+
+        .opponent-name {
+            float: left;
+            font-weight: bold;
+            width: 70%;
+        }
+
+        .opponent-record {
+            float: right;
+            width: 30%;
+        }
+    }
 }

@@ -147,8 +147,25 @@
           <div class="player-losses player-value">{{losses}}</div>
         </div>
         <div class="clear"></div>
+        <ul id="player-nav" class="nav nav-tabs">
+          <li id="results-tab" class="active"><a href="#">Results</a></li>
+          <li id="versus-tab"><a href="#">Versus</a></li>
+        </ul>
         <div id="results" class="player-results">
           {{> results}}
+        </div>
+        <div id="versus" style="display: none;">
+          {{#each opponents}}
+            <div class="opponent">
+              <div class="opponent-name">
+                {{name}}
+              </div>
+              <div class="opponent-record">
+                {{wins}} - {{losses}}
+              </div>
+              <div class="clear"></div>
+            </div>
+          {{/each}}
         </div>
         <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
       {{/with}}
