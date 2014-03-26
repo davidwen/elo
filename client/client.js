@@ -139,7 +139,7 @@ Template.game.self = function(name) {
 }
 
 Template.game.alphaPlayers = function() {
-  return Players.find({}, {sort: {name: 1}});
+  return Players.find({}, {sort: {lower_name: 1}});
 }
 
 Template.game.loggedin = function() {

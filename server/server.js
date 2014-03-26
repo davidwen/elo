@@ -32,7 +32,8 @@ Meteor.methods({
       wins: 0,
       losses: 0,
       last_game: 0,
-      inactive: 1
+      inactive: 1,
+      lower_name: name.toLowerCase()
     });
   },
 
