@@ -30,14 +30,20 @@ h1, h2, h3, h4, h5, h6, strong {
 #player {
     font-size: 18px;
     margin: 0 auto;
+    position: relative;
     width: 300px;
 }
 
 .title {
     border-bottom: 1px solid black;
+    line-height: 33px;
     margin: 10px 0 25px;
     padding-bottom: 10px;
     text-align: center;
+
+    &.long {
+        font-size: 24px;
+    }
 }
 
 .nav-tabs {
@@ -47,6 +53,18 @@ h1, h2, h3, h4, h5, h6, strong {
     li {
         text-align: center;
         width: 50%;
+    }
+}
+
+.back-arrow {
+    position: absolute;
+    left: 2px;
+
+    cursor: pointer;
+    padding: 8px 16px 8px 8px;
+
+    &:hover {
+        color: #666;
     }
 }
 

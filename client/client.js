@@ -30,12 +30,21 @@ var recordResult = function(winner, loser, $error) {
           $('#undo-record-link').removeAttr('result-id').slideUp();
         }, 20 * 1000);
       }
-      $error.hide();
-      $('#add-result').slideUp();
-      $('#player-list').slideDown();
+      transition($('#add-result'), $('#player-list'), $error);
       $('#winner, #loser, #opponent').val('');
     });
   }
+};
+
+var transition = function($from, $to, $error) {
+  if ($error) {
+    $error.hide();
+  }
+  $('.back-arrow').hide();
+  $from.slideUp();
+  $to.slideDown(function() {
+    $('.back-arrow').show();
+  });
 };
 
 var goTo = function(href) {
@@ -90,16 +99,12 @@ Template.index.events({
   },
 
   'click #add-link': function () {
-    $('#game-list-container').slideUp();
-    $('#add-game').slideDown(function() {
-      $('#name-input').focus();
-    });
+    transition($('#game-list-container'), $('#add-game'));
+    $('#name-input').focus();
   },
 
   'click .back-link': function () {
-    $('.error').hide();
-    $('#add-game').slideUp();
-    $('#game-list-container').slideDown();
+    transition($('#add-game'), $('#game-list-container'), $('.error'));
   },
 
   'click #add-game-submit': function() {
@@ -130,6 +135,13 @@ Template.game.title = function() {
   return g && g.name;
 };
 
+Template.game.long = function(title) {
+  var g = game();
+  if (g && g.name.length > 13) {
+    return 'long';
+  }
+};
+
 Template.game.players = function() {
   return Players.find({}, {sort: {inactive: 1, rating: -1, name: 1}});
 }
@@ -147,7 +159,7 @@ Template.game.loggedin = function() {
 }
 
 Template.game.events({
-  'click #home-link': function() {
+  'click .home-link': function() {
     goTo(null);
   },
 
@@ -168,21 +180,16 @@ Template.game.events({
   },
 
   'click #add-link': function() {
-    $('#player-list').slideUp();
-    $('#add-player').slideDown(function() {
-      $('#name-input').focus();
-    });
+    transition($('#player-list'), $('#add-player'));
+    $('#name-input').focus();
   },
 
   'click #record-link': function() {
-    $('#player-list').slideUp();
-    $('#add-result').slideDown();
+    transition($('#player-list'), $('#add-result'));
   },
 
   'click .back-link': function () {
-    $('.error').hide();
-    $('#add-player, #add-result').slideUp();
-    $('#player-list').slideDown();
+    transition($('#add-player, #add-result'), $('#player-list'), $('.error'));
     return false;
   },
 
@@ -199,9 +206,7 @@ Template.game.events({
         $error.text(error.reason).show();
         return;
       } else {
-        $error.hide();
-        $('#add-player').slideUp();
-        $('#player-list').slideDown();
+        transition($('add-player'), $('player-list'), $error);
         $('#name-input').val('');
       }
     });
@@ -342,7 +347,7 @@ Template.player.events({
     return false;
   },
 
-  'click .back-link': function() {
+  'click .back-link, click .go-back': function() {
     goTo(room());
   }
 })

@@ -29,6 +29,7 @@
         <button id="add-link" class="btn btn-primary btn-lg">Add Game</button>
       </div>
       <div id="add-game" style="display: none;">
+        <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
         <h2 class="title">New Game</h2>
         <input type="text" id="name-input" class="form-control input-lg" placeholder="Game name (e.g. Foosball)">
         <div class="error" style="display: none;"></div>
@@ -43,7 +44,8 @@
   {{#if show}}
     <div id="game">
       <div id="player-list">
-        <h2 class="title">{{title}}</h2>
+        <span class="back-arrow home-link glyphicon glyphicon-chevron-left"></span>
+        <h2 class="title {{long title}}">{{title}}</h2>
         <button id="record-link" class="btn btn-info btn-lg">Record Result</button>
         <button id="undo-record-link" class="btn btn-warning btn-lg" style="display: none;">Undo Last Result</button>
         <ul id="game-nav" class="nav nav-tabs">
@@ -63,9 +65,10 @@
           {{> results}}
         </ul>
         <button id="add-link" class="btn btn-primary btn-lg">Add Player</button>
-        <button id="home-link" class="btn btn-danger btn-lg">Return to Game List</button>
+        <button class="home-link btn btn-danger btn-lg">Return to Game List</button>
       </div>
       <div id="add-player" style="display: none;">
+        <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
         <h2 class="title">New Player</h2>
         <input type="text" id="name-input" class="form-control input-lg" placeholder="Player name (e.g. Joe)">
         <div class="error" style="display: none;"></div>
@@ -73,6 +76,7 @@
         <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
       </div>
       <div id="add-result" style="display: none;">
+        <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
         <h2 class="title">Record Result</h2>
         {{#if loggedin}}
           <h3 class="acting-as">Acting as {{loggedin}}</h3>
@@ -132,6 +136,7 @@
 <template name="player">
   {{#if show}}
     <div id="player">
+      <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
       {{#with player}}
         <h2 class="title">{{name}}</h2>
         <div class="player-rating-container">
