@@ -155,7 +155,7 @@ Template.game.alphaPlayers = function() {
 }
 
 Template.game.loggedin = function() {
-  return loggedInPlayer();
+  return loggedInPlayer() && Players.findOne({name: loggedInPlayer()});
 }
 
 Template.game.events({
