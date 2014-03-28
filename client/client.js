@@ -143,7 +143,7 @@ Template.game.long = function(title) {
 };
 
 Template.game.players = function() {
-  return Players.find({}, {sort: {inactive: 1, rating: -1, name: 1}});
+  return Players.find({}, {sort: {inactive: 1, rating: -1, lower_name: 1}});
 }
 
 Template.game.self = function(name) {
