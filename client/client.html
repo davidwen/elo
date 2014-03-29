@@ -116,13 +116,16 @@
 
 <template name="results">
   {{#each results}}
-    {{{maybeSimpleDate}}}
-    <li>
-      <strong>{{winner}}</strong>
-      (<span class="winner-change">+{{winner_change}}</span>) beat
-      <strong>{{loser}}</strong>
-      (<span class="loser-change">{{loser_change}}</span>)
-    </li>
+    {{#if date}}
+      <li class="date-separator">{{date}}</li>
+    {{else}}
+      <li>
+        <strong>{{winner}}</strong>
+        (<span class="winner-change">+{{winner_change}}</span>) beat
+        <strong>{{loser}}</strong>
+        (<span class="loser-change">{{loser_change}}</span>)
+      </li>
+    {{/if}}
   {{else}}
     <li class="empty">No results found</li>
   {{/each}}

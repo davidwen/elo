@@ -1,6 +1,4 @@
-var CUR_DATE;
 var MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var resultsDeps = new Deps.Dependency();
 
 var room = function() {
   return Session.get('room');
@@ -262,29 +260,25 @@ Template.game.events({
   }
 });
 
-Template.results.rendered = function() {
-  CUR_DATE = null;
-}
-
 Template.results.results = function() {
-  resultsDeps.depend();
   var query = {};
   if (viewPlayer()) {
     query = {$or: [{winner: viewPlayer()}, {loser: viewPlayer()}]};
   }
-  return Results.find(query, {sort: {timestamp: -1}, limit: Session.get('resultlimit')});
-}
-
-Template.results.maybeSimpleDate = function() {
-  var date = new Date(this.timestamp);
-  var dateString = MONTH_NAMES[date.getMonth()] + ' ' + date.getDate();
-  if (CUR_DATE == null || CUR_DATE != dateString) {
-    CUR_DATE = dateString
-    var $separator = $('<li/>')
-      .text(dateString)
-      .addClass('date-separator');
-    return $separator[0].outerHTML;
+  var results = Results.find(query, {sort: {timestamp: -1}, limit: Session.get('resultlimit')}).fetch();
+  var resultsAndDate = [];
+  var curDate = null;
+  for (var ii = 0, len = results.length; ii < len; ii++) {
+    var result = results[ii];
+    var date = new Date(result.timestamp);
+    var dateString = MONTH_NAMES[date.getMonth()] + ' ' + date.getDate();
+    if (curDate != dateString) {
+      resultsAndDate.push({date: dateString});
+      curDate = dateString;
+    }
+    resultsAndDate.push(result);
   }
+  return resultsAndDate;
 }
 
 Template.results.moreResults = function() {
@@ -374,13 +368,5 @@ Meteor.startup(function() {
       }
     }
     Meteor.subscribe('games', room());
-    Results.find({}).observe({
-      added: function() {
-        resultsDeps.changed();
-      },
-      removed: function() {
-        resultsDeps.changed();
-      }
-    });
   });
 });
