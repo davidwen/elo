@@ -166,16 +166,16 @@ Template.game.events({
   'click #results-tab': function() {
     $('.active').removeClass('active');
     $('#results-tab').addClass('active');
-    $('#rankings').slideUp();
-    $('#results').slideDown();
+    $('#rankings').hide();
+    $('#results').show();
     return false;
   },
 
   'click #rankings-tab': function() {
     $('.active').removeClass('active');
     $('#rankings-tab').addClass('active');
-    $('#results').slideUp();
-    $('#rankings').slideDown();
+    $('#results').hide();
+    $('#rankings').show();
     return false;
   },
 
@@ -334,16 +334,16 @@ Template.player.events({
   'click #versus-tab': function() {
     $('.active').removeClass('active');
     $('#versus-tab').addClass('active');
-    $('#results').slideUp();
-    $('#versus').slideDown();
+    $('#results').hide();
+    $('#versus').show();
     return false;
   },
 
   'click #results-tab': function() {
     $('.active').removeClass('active');
     $('#results-tab').addClass('active');
-    $('#versus').slideUp();
-    $('#results').slideDown();
+    $('#versus').hide();
+    $('#results').show();
     return false;
   },
 
