@@ -9,109 +9,140 @@
 </head>
 
 <body>
-  {{> index}}
-  {{> game}}
-  {{> player}}
+  {{> main}}
 </body>
 
-<template name="index">
-  {{#if show}}
-    <div id="index">
-      <div id="game-list-container">
-        <h2 class="title">Game List</h2>
-        <ul id="game-list">
-          {{#each games}}
-            <a class="game-link" href="{{href}}">
-              <li>{{name}}</li>
-            </a>
-          {{/each}}
-        </ul>
-        <button id="add-link" class="btn btn-primary btn-lg">Add Game</button>
-      </div>
-      <div id="add-game" style="display: none;">
-        <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
-        <h2 class="title">New Game</h2>
-        <input type="text" id="name-input" class="form-control input-lg" placeholder="Game name (e.g. Foosball)">
-        <div class="error" style="display: none;"></div>
-        <button id="add-game-submit" class="btn btn-primary btn-lg">Add Game</button>
-        <button class="back-link btn btn-danger btn-lg">Return to Game List</button>
-      </div>
+<template name="main">
+  <div id="index" style="display: none;">
+    <div id="game-list-container">
+      <h2 class="title">Game List</h2>
+      <ul id="game-list">
+        {{#each games}}
+          <a class="game-link" href="{{href}}">
+            <li>{{name}}</li>
+          </a>
+        {{/each}}
+      </ul>
+      <button id="add-game-link" class="btn btn-primary btn-lg">Add Game</button>
     </div>
-  {{/if}}
-</template>
+    <div id="add-game" style="display: none;">
+      <span class="back-arrow add-game-to-index-link glyphicon glyphicon-chevron-left"></span>
+      <h2 class="title">New Game</h2>
+      <input type="text" id="game-name-input" class="form-control input-lg" placeholder="Game name (e.g. Foosball)">
+      <div class="error" style="display: none;"></div>
+      <button id="add-game-submit" class="btn btn-primary btn-lg">Add Game</button>
+      <button class="add-game-to-index-link btn btn-danger btn-lg">Return to Game List</button>
+    </div>
+  </div>
 
-<template name="game">
-  {{#if show}}
-    <div id="game">
-      <div id="player-list">
-        <span class="back-arrow home-link glyphicon glyphicon-chevron-left"></span>
-        <h2 class="title {{long title}}">{{title}}</h2>
-        <button id="record-link" class="btn btn-info btn-lg">Record Result</button>
-        <button id="undo-record-link" class="btn btn-warning btn-lg" style="display: none;">Undo Last Result</button>
-        <ul id="game-nav" class="nav nav-tabs">
-          <li id="rankings-tab" class="active"><a href="#">Rankings</a></li>
-          <li id="results-tab"><a href="#">Results</a></li>
-        </ul>
-        <ol id="rankings">
-          {{#each players}}
-            <li class="{{#if inactive}}inactive {{/if}}{{self name}}">
-              <span class="player-link" data-name="{{name}}">{{name}} ({{rating}})</span>
-            </li>
-          {{else}}
-            <li class="empty">No players found</li>
-          {{/each}}
-        </ol>
-        <ul id="results" style="display: none;">
-          {{> results}}
-        </ul>
-        <button id="add-link" class="btn btn-primary btn-lg">Add Player</button>
-        <button class="home-link btn btn-danger btn-lg">Return to Game List</button>
-      </div>
-      <div id="add-player" style="display: none;">
-        <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
-        <h2 class="title">New Player</h2>
-        <input type="text" id="name-input" class="form-control input-lg" placeholder="Player name (e.g. Joe)">
-        <div class="error" style="display: none;"></div>
-        <button id="add-player-submit" class="btn btn-primary btn-lg">Add Player</button>
-        <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
-      </div>
-      <div id="add-result" style="display: none;">
-        <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
-        <h2 class="title">Record Result</h2>
-        {{#if loggedin}}
-          <h3 class="acting-as">Acting as {{loggedin}}</h3>
-          <h4>Opponent:</h4>
-          <select id="opponent" class="form-control">
-            <option value="">(Select Opponent)</option>
-            {{#each alphaPlayers}}
-              <option value="{{name}}">{{name}}</option>
-            {{/each}}
-          </select>
-          <div class="error" style="display: none;"></div>
-          <button id="add-win-submit" class="btn btn-success btn-lg">I Won</button>
-          <button id="add-loss-submit" class="btn btn-warning btn-lg">I Lost</button>
+  <div id="game" style="display: none;">
+    <div id="player-list">
+      <span class="back-arrow game-to-index-link glyphicon glyphicon-chevron-left"></span>
+      <h2 class="title {{long gameTitle}}">{{gameTitle}}</h2>
+      <button id="record-link" class="btn btn-info btn-lg">Record Result</button>
+      <button id="undo-record-link" class="btn btn-warning btn-lg" style="display: none;">Undo Last Result</button>
+      <ul id="game-nav" class="nav nav-tabs">
+        <li id="game-rankings-tab" class="active"><a href="#">Rankings</a></li>
+        <li id="game-results-tab"><a href="#">Results</a></li>
+      </ul>
+      <ol id="game-rankings">
+        {{#each gamePlayers}}
+          <li class="{{#if inactive}}inactive {{/if}}{{isSelf name}}">
+            <span class="player-link" data-name="{{name}}">{{name}} ({{rating}})</span>
+          </li>
         {{else}}
-          <h4>Winner:</h4>
-          <select id="winner" class="form-control">
-            <option value="">(Select Winner)</option>
-            {{#each alphaPlayers}}
-              <option value="{{name}}">{{name}}</option>
-            {{/each}}
-          </select>
-          <h4>Loser:</h4>
-          <select id="loser" class="form-control">
-            <option value="">(Select Loser)</option>
-            {{#each alphaPlayers}}
-              <option value="{{name}}">{{name}}</option>
-            {{/each}}
-          </select>
-          <div class="error" style="display: none;"></div>
-          <button id="add-result-submit" class="btn btn-primary btn-lg">Add Result</button>
-        {{/if}}
-        <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
-      </div>
+          <li class="empty">No players found</li>
+        {{/each}}
+      </ol>
+      <ul id="game-results" style="display: none;">
+        {{> results}}
+      </ul>
+      <button id="add-player-link" class="btn btn-primary btn-lg">Add Player</button>
+      <button class="game-to-index-link btn btn-danger btn-lg">Return to Game List</button>
     </div>
-  {{/if}}
+    <div id="add-player" style="display: none;">
+      <span class="back-arrow add-player-to-game-link glyphicon glyphicon-chevron-left"></span>
+      <h2 class="title">New Player</h2>
+      <input type="text" id="player-name-input" class="form-control input-lg" placeholder="Player name (e.g. Joe)">
+      <div class="error" style="display: none;"></div>
+      <button id="add-player-submit" class="btn btn-primary btn-lg">Add Player</button>
+      <button class="add-player-to-game-link btn btn-danger btn-lg">Return to Player List</button>
+    </div>
+    <div id="add-result" style="display: none;">
+      <span class="back-arrow add-result-to-game-link glyphicon glyphicon-chevron-left"></span>
+      <h2 class="title">Record Result</h2>
+      {{#if loggedin}}
+        <h3 class="acting-as">Acting as {{loggedin}}</h3>
+        <h4>Opponent:</h4>
+        <select id="opponent" class="form-control">
+          <option value="">(Select Opponent)</option>
+          {{#each alphaPlayers}}
+            <option value="{{name}}">{{name}}</option>
+          {{/each}}
+        </select>
+        <div class="error" style="display: none;"></div>
+        <button id="add-win-submit" class="btn btn-success btn-lg">I Won</button>
+        <button id="add-loss-submit" class="btn btn-warning btn-lg">I Lost</button>
+      {{else}}
+        <h4>Winner:</h4>
+        <select id="winner" class="form-control">
+          <option value="">(Select Winner)</option>
+          {{#each alphaPlayers}}
+            <option value="{{name}}">{{name}}</option>
+          {{/each}}
+        </select>
+        <h4>Loser:</h4>
+        <select id="loser" class="form-control">
+          <option value="">(Select Loser)</option>
+          {{#each alphaPlayers}}
+            <option value="{{name}}">{{name}}</option>
+          {{/each}}
+        </select>
+        <div class="error" style="display: none;"></div>
+        <button id="add-result-submit" class="btn btn-primary btn-lg">Add Result</button>
+      {{/if}}
+      <button class="add-result-to-game-link btn btn-danger btn-lg">Return to Player List</button>
+    </div>
+  </div>
+
+  <div id="player" style="display: none;">
+    <span class="back-arrow player-to-game-link glyphicon glyphicon-chevron-left"></span>
+    <h2 class="title {{long playerName}}">{{playerName}}</h2>
+    <div class="player-rating-container">
+      <div class="player-header">Rating</div>
+      <div class="player-rating player-value">{{playerRating}}</div>
+    </div>
+    <div class="player-wins-container">
+      <div class="player-header">Wins</div>
+      <div class="player-wins player-value">{{playerWins}}</div>
+    </div>
+    <div class="player-losses-container">
+      <div class="player-header">Losses</div>
+      <div class="player-losses player-value">{{playerLosses}}</div>
+    </div>
+    <div class="clear"></div>
+    <ul id="player-nav" class="nav nav-tabs">
+      <li id="player-results-tab" class="active"><a href="#">Results</a></li>
+      <li id="player-versus-tab"><a href="#">Versus</a></li>
+    </ul>
+    <div id="player-results">
+      {{> results}}
+    </div>
+    <div id="player-versus" style="display: none;">
+      {{#each playerOpponents}}
+        <div class="opponent">
+          <div class="opponent-name">
+            {{name}}
+          </div>
+          <div class="opponent-record">
+            {{wins}} - {{losses}}
+          </div>
+          <div class="clear"></div>
+        </div>
+      {{/each}}
+    </div>
+    <button class="player-to-game-link btn btn-danger btn-lg">Return to Player List</button>
+  </div>
 </template>
 
 <template name="results">
@@ -133,50 +164,5 @@
     <a id="more-results" href="#">
       <li>More Results...</li>
     </a>
-  {{/if}}
-</template>
-
-<template name="player">
-  {{#if show}}
-    <div id="player">
-      <span class="back-arrow back-link glyphicon glyphicon-chevron-left"></span>
-      {{#with player}}
-        <h2 class="title">{{name}}</h2>
-        <div class="player-rating-container">
-          <div class="player-header">Rating</div>
-          <div class="player-rating player-value">{{rating}}</div>
-        </div>
-        <div class="player-wins-container">
-          <div class="player-header">Wins</div>
-          <div class="player-wins player-value">{{wins}}</div>
-        </div>
-        <div class="player-losses-container">
-          <div class="player-header">Losses</div>
-          <div class="player-losses player-value">{{losses}}</div>
-        </div>
-        <div class="clear"></div>
-        <ul id="player-nav" class="nav nav-tabs">
-          <li id="results-tab" class="active"><a href="#">Results</a></li>
-          <li id="versus-tab"><a href="#">Versus</a></li>
-        </ul>
-        <div id="results" class="player-results">
-          {{> results}}
-        </div>
-        <div id="versus" style="display: none;">
-          {{#each opponents}}
-            <div class="opponent">
-              <div class="opponent-name">
-                {{name}}
-              </div>
-              <div class="opponent-record">
-                {{wins}} - {{losses}}
-              </div>
-              <div class="clear"></div>
-            </div>
-          {{/each}}
-        </div>
-        <button class="back-link btn btn-danger btn-lg">Return to Player List</button>
-      {{/with}}
-    </div>
   {{/if}}
 </template>

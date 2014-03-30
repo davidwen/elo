@@ -65,20 +65,20 @@ h1, h2, h3, h4, h5, h6, strong {
     #game-list li:hover {
       background-color: #ddd; }
 
-#name-input {
+#game-name-input, #player-name-input {
   margin-bottom: 25px;
   width: 100%; }
 
-#rankings {
+#game-rankings {
   margin-bottom: 25px; }
-  #rankings li {
+  #game-rankings li {
     margin: 5px 0; }
-    #rankings li.empty {
+    #game-rankings li.empty {
       margin-left: -40px; }
-    #rankings li.inactive {
+    #game-rankings li.inactive {
       color: #aaa;
       list-style-type: none; }
-    #rankings li.self {
+    #game-rankings li.self {
       color: #f39c12; }
 
 .player-link {
@@ -93,21 +93,21 @@ h1, h2, h3, h4, h5, h6, strong {
   text-align: center;
   width: 300px; }
 
-#results {
+#game-results, #player-results {
   list-style-type: none;
   margin-bottom: 25px;
   padding: 0; }
-  #results li {
+  #game-results li, #player-results li {
     margin: 2px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap; }
-  #results .date-separator {
+  #game-results .date-separator, #player-results .date-separator {
     color: #666;
     font-size: 20px;
     font-weight: bold;
     margin: 15px 0; }
-    #results .date-separator:first-child {
+    #game-results .date-separator:first-child, #player-results .date-separator:first-child {
       margin-top: 0; }
 
 #more-results {
@@ -159,17 +159,17 @@ h1, h2, h3, h4, h5, h6, strong {
 .player-losses {
   color: red; }
 
-.player-results {
+#player-results {
   margin: 25px 0; }
 
-#versus {
+#player-versus {
   margin-bottom: 20px; }
-  #versus .opponent {
+  #player-versus .opponent {
     margin-bottom: 5px; }
-    #versus .opponent .opponent-name {
+    #player-versus .opponent .opponent-name {
       float: left;
       font-weight: bold;
       width: 70%; }
-    #versus .opponent .opponent-record {
+    #player-versus .opponent .opponent-record {
       float: right;
       width: 30%; }

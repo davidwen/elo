@@ -96,7 +96,7 @@ h1, h2, h3, h4, h5, h6, strong {
 
 ////// Add Player
 
-#name-input {
+#game-name-input, #player-name-input {
     margin-bottom: 25px;
     width: 100%;
 }
@@ -104,7 +104,7 @@ h1, h2, h3, h4, h5, h6, strong {
 
 ////// Rankings
 
-#rankings {
+#game-rankings {
     margin-bottom: 25px;
 
     li {
@@ -143,7 +143,7 @@ h1, h2, h3, h4, h5, h6, strong {
 
 ////// Results
 
-#results {
+#game-results, #player-results {
     list-style-type: none;
     margin-bottom: 25px;
     padding: 0;
@@ -233,11 +233,11 @@ h1, h2, h3, h4, h5, h6, strong {
     color: red;
 }
 
-.player-results {
+#player-results {
     margin: 25px 0;
 }
 
-#versus {
+#player-versus {
     margin-bottom: 20px;
 
     .opponent {
