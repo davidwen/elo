@@ -26,14 +26,19 @@ var recordResult = function(winner, loser, $error) {
     return;
   } else {
     Meteor.call('add_result', winner, loser, room(), function(error, result) {
+      var $addResult = $('#add-result');
+
       if (result) {
-        $('#undo-record-link').attr('result-id', result).show();
+        var $undo = $('#undo-record-link');
+
+        $undo.data('result-id', result).show();
         setTimeout(function() {
-          $('#undo-record-link').removeAttr('result-id').slideUp();
+          $undo.removeData('result-id').slideUp();
         }, 20 * 1000);
       }
-      transition($('#add-result'), $('#player-list'), true, $error);
-      $('#winner, #loser, #opponent').val('');
+
+      transition($addResult, $('#player-list'), true, $error);
+      $addResult.find('#winner, #loser, #opponent').val('');
     });
   }
 };
@@ -42,11 +47,15 @@ var transition = function($from, $to, slide, $error) {
   if ($error) {
     $error.hide();
   }
+
   if (slide) {
-    $('.back-arrow').hide();
+    var $backArrow = $('.back-arrow');
+
+    $backArrow.hide();
     $from.slideUp();
     $to.slideDown(function() {
-      $('.back-arrow').fadeIn();
+      window.scrollTo(0, 0);
+      $backArrow.fadeIn();
     });
   } else {
     $from.hide();
@@ -58,9 +67,11 @@ var goTo = function(href, $from, $to) {
   if (href == null) {
     href = '';
   }
+
   if (loggedInPlayer()) {
     href += '?player=' + loggedInPlayer();
   }
+
   window.history.pushState({}, '', '/' + href);
   setSession();
   transition($from, $to, false);
@@ -71,12 +82,14 @@ var goTo = function(href, $from, $to) {
 
 var setSession = function() {
   var href = window.location.pathname;
+
   if (href == null) {
     href = '';
     setIfNotEqual('room', null);
     setIfNotEqual('viewplayer', null);
   } else {
     var split = href.split('/');
+
     if (split.length > 2) {
       setIfNotEqual('viewplayer', decodeURI(split[2]));
     } else {
@@ -151,28 +164,34 @@ Template.main.playerLosses = function() {
 };
 
 Template.main.playerOpponents = function() {
+  var results = Results.find({}).fetch(),
+      opponentMap = {},
+      opponents = [];
+
   if (!viewPlayerName()) {
     return;
   }
-  var results = Results.find({}).fetch();
-  var opponentMap = {};
+  
   for (var ii = 0, len = results.length; ii < len; ii++) {
-    var result = results[ii];
-    var won = result.winner == viewPlayerName();
-    var opponent = won ? result.loser : result.winner;
+    var result = results[ii],
+        won = result.winner == viewPlayerName(),
+        opponent = won ? result.loser : result.winner;
+
     if (!opponentMap[opponent]) {
       opponentMap[opponent] = {name: opponent, wins: 0, losses: 0};
     }
+
     if (won) {
       opponentMap[opponent].wins++;
     } else {
       opponentMap[opponent].losses++;
     }
   }
-  var opponents = [];
+
   for (var key in opponentMap) {
     opponents.push(opponentMap[key]);
   }
+
   opponents.sort(function(a, b) { return b.wins + b.losses - a.wins - a.losses; });
   return opponents;
 }
@@ -183,6 +202,7 @@ Template.main.events({
 
   'click .game-link': function() {
     var href = $(event.target).parents('a').attr('href');
+
     goTo(href, $('#index'), $('#game'));
     return false;
   },
@@ -193,25 +213,32 @@ Template.main.events({
   },
 
   'click .add-game-to-index-link': function () {
-    transition($('#add-game'), $('#game-list-container'), true, $('#add-game .error'));
+    var $addGame = $('#add-game');
+
+    transition($addGame, $('#game-list-container'), true, $addGame.find('.error'));
   },
 
   'click #add-game-submit': function() {
-    var name = $('#game-name-input').val();
-    var $error = $('#add-game .error');
+    var $input = $('#game-name-input'),
+        $addGame = $('#add-game'),
+        $error = $addGame.find('.error');
+
+    var name = $input.val();
+
     if (name.trim().length == 0) {
-      $error.text('Enter a game name').show();
+      $error.text('Please enter a game name').show();
       return;
     }
+
     $error.hide();
     Meteor.call('add_game', name, function(error, result) {
       if (error) {
         $error.text(error.reason).show();
         return;
       } else {
-        $('#game-name-input').val('');
+        $input.val('');
         goTo(result, $('#index'), $('#game'));
-        $('#add-game').hide();
+        $addGame.hide();
         $('#game-list-container').show();
       }
     });
@@ -240,8 +267,10 @@ Template.main.events({
   },
 
   'click #add-player-link': function() {
-    transition($('#player-list'), $('#add-player'), true);
-    $('#player-name-input').focus();
+    var $addPlayer = $('#add-player');
+
+    transition($('#player-list'), $addPlayer, true);
+    $addPlayer.find('#player-name-input').focus();
   },
 
   'click #record-link': function() {
@@ -249,62 +278,77 @@ Template.main.events({
   },
 
   'click .add-player-to-game-link': function () {
-    transition($('#add-player'), $('#player-list'), true, $('#add-player .error'));
+    var $addPlayer = $('#add-player');
+
+    transition($addPlayer, $('#player-list'), true, $addPlayer.find('.error'));
   },
 
   'click .add-result-to-game-link': function () {
-    transition($('#add-result'), $('#player-list'), true, $('#add-result .error'));
+    var $addResult = $('#add-result');
+
+    transition($addResult, $('#player-list'), true, $addResult.find('.error'));
   },
 
   'click #add-player-submit': function() {
-    var name = $('#player-name-input').val();
-    var $error = $('#add-player .error');
+    var $input = $('#player-name-input'),
+        $addPlayer = $('#add-player'),
+        $error = $addPlayer.find('.error');
+
+    var name = $input.val();
+
     if (name.trim().length == 0) {
       $error.text('Please enter a player name').show();
       return;
     }
+
     $error.hide();
     Meteor.call('add_player', name, room(), function(error, result) {
       if (error) {
         $error.text(error.reason).show();
-        return;
       } else {
-        transition($('#add-player'), $('#player-list'), true, $error);
-        $('#player-name-input').val('');
+        transition($addPlayer, $('#player-list'), true, $error);
+        $input.val('');
       }
     });
   },
 
   'click #add-result-submit': function() {
-    var winner = $('#winner').val();
-    var loser = $('#loser').val();
-    var $error = $('#add-result .error');
+    var $addResult = $('#add-result'),
+        $error = $addResult.find('.error');
+
+    var winner = $addResult.find('#winner').val(),
+        loser = $addResult.find('#loser').val();
+
     if (winner == '' || loser == '') {
       $error.text('Please enter a winner and a loser').show();
-      return;
+    } else {
+      recordResult(winner, loser, $error);
     }
-    recordResult(winner, loser, $error);
   },
 
   'click #add-win-submit': function() {
-    var winner = loggedInPlayer();
-    var loser = $('#opponent').val();
-    var $error = $('#add-result .error');
+    var $addResult = $('#add-result'),
+        $error = $addResult.find('.error');
+
+    var winner = loggedInPlayer(),
+        loser = $addResult.find('#opponent').val();
+
     if (loser == '') {
       $error.text('Please enter an opponent').show();
-      return;
     } else {
       recordResult(winner, loser, $error);
     }
   },
 
   'click #add-loss-submit': function() {
-    var winner = $('#opponent').val();
-    var loser = loggedInPlayer();
-    var $error = $('#add-result .error');
+    var $addResult = $('#add-result'),
+        $error = $addResult.find('.error');
+
+    var winner = $addResult.find('#opponent').val(),
+        loser = loggedInPlayer();
+
     if (winner == '') {
       $error.text('Please enter an opponent').show();
-      return;
     } else {
       recordResult(winner, loser, $error);
     }
@@ -312,7 +356,9 @@ Template.main.events({
 
   'click #undo-record-link': function() {
     var $button = $(event.target);
-    var resultId = $button.attr('result-id');
+
+    var resultId = $button.data('result-id');
+
     if (resultId) {
       Meteor.call('undo_result', resultId, function(error, result) {
         $button.slideUp();
@@ -321,7 +367,7 @@ Template.main.events({
   },
 
   'click .player-link': function() {
-    goTo(room() + '/' + $(event.target).attr('data-name'), $('#game'), $('#player'));
+    goTo(room() + '/' + $(event.target).data('name'), $('#game'), $('#player'));
   },
 
   ////// Player Events
@@ -348,23 +394,25 @@ Template.main.events({
 });
 
 Template.results.results = function() {
-  var query = {};
-  if (viewPlayerName()) {
-    query = {$or: [{winner: viewPlayerName()}, {loser: viewPlayerName()}]};
-  }
-  var results = Results.find(query, {sort: {timestamp: -1}, limit: Session.get('resultlimit')}).fetch();
-  var resultsAndDate = [];
-  var curDate = null;
+  var playerName = viewPlayerName(),
+      query = playerName ? {$or: [{winner: playerName}, {loser: playerName}]} : {},
+      results = Results.find(query, {sort: {timestamp: -1}, limit: Session.get('resultlimit')}).fetch(),
+      resultsAndDate = [],
+      curDate = null;
+  
   for (var ii = 0, len = results.length; ii < len; ii++) {
-    var result = results[ii];
-    var date = new Date(result.timestamp);
-    var dateString = MONTH_NAMES[date.getMonth()] + ' ' + date.getDate();
+    var result = results[ii],
+        date = new Date(result.timestamp),
+        dateString = MONTH_NAMES[date.getMonth()] + ' ' + date.getDate();
+
     if (curDate != dateString) {
       resultsAndDate.push({date: dateString});
       curDate = dateString;
     }
+
     resultsAndDate.push(result);
   }
+
   return resultsAndDate;
 }
 
@@ -382,9 +430,11 @@ Template.results.events({
 Meteor.startup(function() {
   FastClick.attach(document.body);
   Session.set('resultlimit', 10);
+
   window.onpopstate = function(event) {
     setSession();
   };
+
   setSession();
   if (!room()) {
     $('#index').show();
@@ -393,6 +443,7 @@ Meteor.startup(function() {
   } else {
     $('#player').show();
   }
+
   Deps.autorun(function() {
     setSession();
     if (room()) {
@@ -401,14 +452,17 @@ Meteor.startup(function() {
     }
 
     var params = window.location.search.substring(1).split('&');
+
     for (var ii = 0, len = params.length; ii < len; ii++) {
       var pair = params[ii].split('=');
+
       if (pair.length == 2 && 
           pair[0] == 'player' &&
           (!room() || Players.findOne({name: pair[1], game: room()}))) {
         Session.set('player', pair[1]);
       }
     }
+
     Meteor.subscribe('games', room());
   });
 });
