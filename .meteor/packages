@@ -5,7 +5,8 @@
 
 standard-app-packages
 
-mrt:bootstrap-3@3.1.1-1
 jquery
 
 percolatestudio:fastclick@0.6.7
+mizzao:bootstrap-3
+
