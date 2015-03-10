@@ -200,7 +200,7 @@ Template.main.events({
 
   ////// Index Events
 
-  'click .game-link': function() {
+  'click .game-link': function(event) {
     var href = $(event.target).parents('a').attr('href');
 
     goTo(href, $('#index'), $('#game'));
@@ -354,7 +354,7 @@ Template.main.events({
     }
   },
 
-  'click #undo-record-link': function() {
+  'click #undo-record-link': function(event) {
     var $button = $(event.target);
 
     var resultId = $button.data('result-id');
@@ -366,7 +366,7 @@ Template.main.events({
     }
   },
 
-  'click .player-link': function() {
+  'click .player-link': function(event) {
     goTo(room() + '/' + $(event.target).data('name'), $('#game'), $('#player'));
   },
 
