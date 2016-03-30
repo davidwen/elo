@@ -10,4 +10,5 @@ jquery
 fastclick
 mizzao:bootstrap-3
 
-standard-minifiers
+standard-minifier-css
+standard-minifier-js
