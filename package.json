@@ -1,0 +1,25 @@
+{
+  "name": "elo",
+  "version": "1.0.0",
+  "description": "http://elo.meteor.com",
+  "main": "elo.js",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.55",
+    "babel-runtime": "^6.26.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidwen/elo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidwen/elo/issues"
+  },
+  "homepage": "https://github.com/davidwen/elo#readme"
+}
